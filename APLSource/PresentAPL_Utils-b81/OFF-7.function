@@ -1,0 +1,6 @@
+ OFF rc
+ :If #.APLTreeUtils.IsDevelopment
+     →
+ :Else
+     ⎕OFF rc
+ :EndIf

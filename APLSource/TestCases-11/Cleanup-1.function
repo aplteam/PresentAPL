@@ -1,0 +1,5 @@
+ Cleanup;home
+ home←'..\PresentAPL_TestCases\Files\'
+ #.FilesAndDirs.DeleteFile home,'Test_01.html'
+ #.FilesAndDirs.DeleteFile home,'Test_03.html'
+⍝Done

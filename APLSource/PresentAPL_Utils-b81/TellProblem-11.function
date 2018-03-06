@@ -1,0 +1,14 @@
+ {r}←TellProblem parms;∆
+ r←⍬
+ ∆←''
+ ∆,←⊂'Caption' 'PresentAPL Problem'
+ ∆,←⊂'Style' 'Error'
+ ∆,←⊂'Btns' 'OK'
+ ∆,←⊂'Text'(↑parms.LastError)
+ 'ff'⎕WC(⊂'MsgBox'),∆
+ ⎕DQ'ff'
+ :If #.APLTreeUtils.IsDevelopment
+     →
+ :Else
+     ⎕OFF
+ :EndIf

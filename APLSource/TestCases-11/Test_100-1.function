@@ -1,0 +1,18 @@
+ R←Test_100(stopFlag batchFlag);⎕TRAP;parms;filename;html;report
+⍝ The input file specified a couple of PresentAPL parameters.
+⍝ R gets one of: 0=Okay, 1=test case failed, ¯1=test case was not executed due tothe "batchFlag"
+ ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
+ R←∆Failed
+
+ filename←'Tests\Markdown.html'
+ #.FilesAndDirs.DeleteFile filename
+ parms←##.PresentAPL.CreateParms
+ parms.inputFilename←(¯4↓filename),'md'
+ report←##.PresentAPL.MakePresentation parms
+
+ →PassesIf 0∊⍴report
+ →PassesIf #.FilesAndDirs.Exists filename
+ html←1↓↑,/(⎕UCS 13),¨#.APLTreeUtils.ReadUtf8File filename
+ →PassesIf 1=+/'url(BlueBackground.jpg)'⍷html
+
+ R←∆OK

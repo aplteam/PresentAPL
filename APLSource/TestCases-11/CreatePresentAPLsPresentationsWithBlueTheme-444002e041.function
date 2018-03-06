@@ -1,0 +1,15 @@
+ CreatePresentAPLsPresentationsWithBlueTheme;p
+ p←#.PresentAPL.CreateParms
+ p.inputFilename←'Files\About_PresentAPL.md'
+ p.outputFilename←'Files\About_PresentAPL_WithBlueTheme.html'
+ p.css←'PresentAPL_Blue.css'
+⍝p.standalone←0
+ #.PresentAPL.MakePresentation p
+
+ p←#.PresentAPL.CreateParms
+ p.inputFilename←'Files\Samples.md'
+ p.outputFilename←'Files\Samples._WithBlueTheme.html'
+ p.css←'PresentAPL_Blue.css'
+⍝p.standalone←0
+ #.PresentAPL.MakePresentation p
+⍝
