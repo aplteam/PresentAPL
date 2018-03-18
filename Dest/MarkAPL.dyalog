@@ -62,11 +62,14 @@
     ∇ r←Version
       :Access Public Shared
       ⍝ See `History`
-      r←(Last⍕⎕THIS)'4.4.0' '2018-02-19'
+      r←(Last⍕⎕THIS)'4.4.1' '2018-03-07'
     ∇
 
     ∇ History
       :Access Public Shared
+      ⍝ * 4.4.1                    
+      ⍝   * The MarkAPL.html document had a problem with it's CSS files.
+      ⍝   * Documentation improved.
       ⍝ * 4.4.0
       ⍝   * Converted from the APL wiki to GitHub.
       ⍝ * 4.3.0

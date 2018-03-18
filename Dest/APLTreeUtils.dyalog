@@ -48,7 +48,7 @@
 ⍝   * This version uses 15.0-features. **It's not backwards-compatible!**
 ⍝
 ⍝ Kai Jaeger - APL Team Ltd.\\
-⍝ Homepage: <http://github.com/aplteam/APLTreeUtils>
+⍝ Homepage: <http://aplwiki.com/APLTreeUtils>
 
     ∇ array←Uppercase array
     ⍝ Fast uppercasing that excepts scalars, vectors and matrices as well as vectors and
