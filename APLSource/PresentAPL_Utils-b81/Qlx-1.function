@@ -9,7 +9,7 @@
  files←1↓args
  files←('.md'∘≡¨#.APLTreeUtils.Lowercase ¯3↑¨files)/files
  :If 0∊⍴files
-     'ff'⎕WC'MsgBox'('Style' 'Error')('Btns' 'OK')('Text' 'No Markdown file specified')
+     'ff'⎕WC'MsgBox'('Style' 'Error')('Caption' 'PresentAPL')('Btns' 'OK')('Text' 'No Markdown file specified')
      ⎕DQ'ff'
      OFF 1
  :Else
@@ -35,12 +35,12 @@
              parms.bookmarkMayStartWithDigit←1
              parms←AddDefaultParms parms
          :EndIf
-         :If ~0∊⍴problems←#.PresentAPL.MakePresentation parms
+         :If ~0∊⍴problems←#.PresentAPL.MakePresentationFromFile parms
              report,←(⊂'*** Problems:'),'  '∘,¨problems
          :EndIf
          report,←⊂file
      :EndFor
-     msg←(⊂(⍕⍴report),' presentation',((1<⍴report)/'s'),' created: '),'  '∘,¨report
+     msg←(⊂(⍕⍴report),' presentation',((1<⍴report)/'s'),' created: '),'  '∘,¨(¯2↓¨report),¨⊂'html'
      'ff'⎕WC'MsgBox'('Style' 'Info')('Btns' 'OK')('Text'msg)
      ⎕DQ'ff'
      OFF 0

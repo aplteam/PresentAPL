@@ -1,0 +1,9 @@
+ r2;parms;report;md;html
+ parms←PresentAPL.CreateParms
+ md←#.APLTreeUtils.ReadUtf8File'About_PresentAPL.md'
+ (html report)←PresentAPL.MakePresentationFromMarkdown md parms
+ :If ~0∊≢report
+     ⎕←'*** Report:'
+     ⎕←⍪report
+ :EndIf
+⍝Done

@@ -16,11 +16,19 @@
 
 ## How to create a presentation  
 
+### Drag and drop
+
 The simplest way to use PresentAPL is to drag and drop one or more presentation files (`*.md`) onto `PresentAPL.exe`.
 
-Alternatively you can add a context menu entry "Create presentation with PresentAPL"; see below for details how to do that.
+### Command line
 
-The resulting presentation is a stand-aloncreated from. If there is already a file with that name it will be overwritten.
+Call `PresentAPL.exe` --- for example in a console window --- and pass the name(s) of the markdown files (extension `.md` is required!) you want to be converted into presentations.
+
+### Via the context menu
+
+You can also add a context menu entry "Create presentation with PresentAPL"; see below for details how to do that.
+
+The resulting presentation is in any case a stand-alone HTML file created from the markdown file. If there is already a file with that name it will be overwritten. It will go into the same folder the source files came from, and with the same name except the extension which will be `.html`.
 
 
 ## How to change parameters
@@ -77,3 +85,4 @@ A big thank you to:
 
 | Kai Jaeger  | APL Team Ltd |
 | Created     | 2016-04-12   |
+| Last update | 2018-09-26   |

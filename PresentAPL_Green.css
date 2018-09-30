@@ -6,26 +6,26 @@
 	Version: 1.0
 
 	Author:  Stefan Goessner/2005
-	Web:     http://goessner.net/ 
-	
-	Enhanced/changed for "PresentAPL" by (mainly) Mike Mingard 
+	Web:     http://goessner.net/
+
+	Enhanced/changed for "PresentAPL" by (mainly) Mike Mingard
 	and (a bit) by Kai Jaeger.
-	
+
 	Note that this CSS file contains CSS for all media types:
 	"screen", "presentation" and "print".
 */
 
-@media screen, projection { 
+@media screen, projection {
 
 body {
   background-color: #5d5f60;
   background-image: url();      /* You might change this */
   padding: 0;
   margin: 0;
-  color: #fff; 
-  border-color: #678; 
+  color: #fff;
+  border-color: #678;
   font-size: 100%;
-  font-family: 'open sans', Verdana;
+  font-family: Verdana, "Open Sans";
   line-height: 1.6;
 }
 code {
@@ -43,7 +43,6 @@ pre code {
 	background-color: inherit;
 	color: inherit;
 	font-weight: 800;
-	padding: 0;
 	border: 1px silver;
 	padding:2px;
 }
@@ -119,13 +118,13 @@ div.slide {
 }
 
 div.slide h1 {
-  background: inherit; /* silver; */  /*#a0aaa4; */
-  color: #91cc41; /* #f0fff8;*/
+  background: inherit;
+  color: #91cc41;
   padding: 0;
   margin: 0;
   font-size: 160%;
   border-bottom: solid 2px #91cc41 ;
-  font-family: 'open sans', Verdana;
+  font-family: Verdana, "Open Sans";
   font-weight:300;
 
 }
@@ -169,7 +168,7 @@ img {
 
 h1, h2, h3, h4, h5, h6 {
 	color: #91cc41;
-	font-family: Verdana, 'open sans';	
+	font-family: Verdana, "Open Sans";
 	font-weight: 800;
 }
 
@@ -188,7 +187,7 @@ table td, table th {
 border-left: solid 1px #91cc41;
 border-right: solid 1px #91cc41;
 padding: 0.25em 0.5em 0.25em 0.5em;
-text-align: center;
+text-align: left;
 }
 tbody tr:nth-child(odd) {
   background-color: #869177;
@@ -226,13 +225,25 @@ li > p {
 @media print {
 body {
   color: black;
-  font-family: sans-serif;
-  font-size: 11pt;
+  font-size: 1em;
+  font-family: Verdana, sans-serif;
+  margin: 2em;
 }
+
+p, code, ul, ol, tr {
+    font-size: 80%;
+}
+
+h1 {font-size: 120%;}
+h2 {font-size: 110%;}
+h3 {font-size: 100%;}
+h4 {font-size: 90%;}
+h5 {font-size: 80%;}
+h6 {font-size: 80%;}
 
 #statusbar { display: none; }
 div.slide { page-break-after: always; }
-div.handout { display: block; }
+div.handout { display: block; border-left: 2px solid silver; padding-left: 4px;}
 
 li {
 	padding:5px 0;
@@ -252,8 +263,8 @@ li > p {
 
 @font-face {
     font-family: APLFONT;
-    src: 
-    local("APL385 Unicode"),   
+    src:
+    local("APL385 Unicode"),
     url("http://misc.aplteam.com/apl385.woff"),
     url("http://misc.aplteam.com/apl385.ttf");
 }

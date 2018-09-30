@@ -1,0 +1,8 @@
+ r1;parms;report
+ parms←PresentAPL.CreateParms
+ parms.inputFilename←'About_PresentAPL.md'
+ :If ~0∊≢report←PresentAPL.MakePresentationFromFile parms
+     ⎕←'*** Report:'
+     ⎕←⍪r
+ :EndIf
+⍝Done

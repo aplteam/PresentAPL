@@ -1,0 +1,25 @@
+ R←Test_File_003(stopFlag batchFlag);⎕TRAP;parms;filename;report;tempDir;name
+⍝ Specify a different folder for the output file but no output filename.
+⍝ R gets one of: 0=Okay, 1=test case failed, ¯1=test case was not executed due to the "batchFlag"
+ ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
+ R←∆Failed
+
+ name←'Test_01.html'
+ filename←'Tests\',name
+ #.FilesAndDirs.DeleteFile filename
+ parms←##.PresentAPL.CreateParms
+ parms.inputFilename←(¯4↓filename),'md'
+ tempDir←#.FilesAndDirs.GetTempPath,' '~⍨⍕⎕TS
+ 'Create!'#.FilesAndDirs.CheckPath tempDir
+ parms.outputFilename←tempDir,'\'
+ parms.cssURL←#.FilesAndDirs.PWD
+ parms.css←'Tests\PresentAPL_.css'
+ report←##.PresentAPL.MakePresentationFromFile parms
+
+ →GoToTidyUp~0∊⍴report
+ →GoToTidyUp~#.FilesAndDirs.Exists tempDir,'\',name
+
+ R←∆OK
+
+∆TidyUp:
+ #.FilesAndDirs.RmDir tempDir

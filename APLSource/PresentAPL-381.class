@@ -28,6 +28,10 @@
 ⍝ The JavaScript is much less likely to need modification. It is therefore not kept in a file.
 ⍝ See `GetJavascript`.
 ⍝
+⍝ ## Traps
+⍝ Note that the level-1 header must not contain a `<` character. If it would the HTML would
+⍝ not render at all.
+⍝
 ⍝ License: <http://creativecommons.org/licenses/LGPL/2.1/>\\
 ⍝ Author Kai Jaeger <https://www.linkedin.com/in/kaijaeger>\\
 ⍝ Homepage: <http://aplwiki.com/PresentAPL>
@@ -38,11 +42,13 @@
 
     ∇ r←Version
       :Access Public Shared
-      r←(Last⍕⎕THIS)'2.3.0' '2018-03-06'
+      r←(Last⍕⎕THIS)'2.4.0.3.3' '2018-09-28'
     ∇
 
     ∇ History
       :Access Public Shared
+      ⍝ * 2.4.0
+      ⍝   * Some minor improvements and fixes and preparation for including it into Meddy.
       ⍝ * 2.3.0
       ⍝   * Converted to acre 4 and GitHub.
       ⍝ * 2.2.0
@@ -64,9 +70,8 @@
       ⍝   * All slides are no children of div.slides
     ∇
 
-    ∇ {r}←MakePresentation parms;md;pres;main;ns;title;html
+    ∇ report←MakePresentationFromFile parms;md;pres;main;ns;title;html
       :Access Public Shared
-      r←⍬
       parms.bookmarkLink←0
       parms.linkToCSS←~parms.standalone
       parms.screenCSS←parms.css
@@ -79,24 +84,75 @@
       :EndIf
       parms(GetParmsFromMarkdown)←md
       pres←SplitMarkdown md
+      pres.∆slide_00←CheckTitle pres.∆slide_00
       main←pres.⍎⊃↓'∆'pres.⎕NL 2
       ns←##.MarkAPL.Init parms main
       ns←##.MarkAPL.Process ns
       title←⊃ns.headers[1;3]
       ns.data,⍨←⊂'title'('"',title,'"')  ⍝ Make it the first so that the user can overwrite it if she wishes
-      :If ~0∊⍴r←ns.report
-      :AndIf parms.printReportToSession
-          ⎕←'*** Problem with presentation'
-          ⎕←⍪' ',¨ns.report
-      :EndIf
+      report←ns.report
       html←CreateTopOfHTML_Page title ns.data parms
       html,←⊂'<div class="slides">'
       html,←ns MakeSlides pres
       html,←⊂'</div>'
       WriteUtf8File parms.outputFilename html
-      r←ns.report
      ⍝Done
     ∇
+
+    ∇ (html ns)←MakePresentationFromMarkdown(markdown parms);pres;main;title;html
+      :Access Public Shared
+      parms.bookmarkLink←0
+      parms.linkToCSS←~parms.standalone
+      parms.screenCSS←parms.css
+      parms.printCSS←''
+      parms(GetParmsFromMarkdown)←markdown
+      pres←SplitMarkdown markdown
+      main←pres.⍎⊃↓'∆'pres.⎕NL 2
+      ns←##.MarkAPL.Init parms main
+      ns←##.MarkAPL.Process ns
+      title←⊃ns.headers[1;3]
+      ns.data,⍨←⊂'title'('"',title,'"')  ⍝ Make it the first so that the user can overwrite it if she wishes
+      html←CreateTopOfHTML_Page title ns.data parms
+      html,←⊂'<div class="slides">'
+      html,←ns MakeSlides pres
+      html,←⊂'</div>'
+     ⍝Done
+    ∇
+
+    ∇ r←CreateParms
+      :Access Public Shared
+      r←##.MarkAPL.CreateParms
+      r.⎕EX¨'linkToCSS' 'screenCSS' 'printCSS'
+      r.base←''
+      r.homeFolder←¯1
+      r.verbose←1                   ⍝ 1=We need to check the results.
+      r.standalone←1                ⍝ 1=Inject CSS into the resulting HTML file, making it stand-alone.
+      r.cssURL←⊃SplitPath ⎕WSID     ⍝ That's where we expect to find the CSS file.
+      r.css←'PresentAPL_Blue.css'   ⍝ The default theme.
+      r.checkFootnotes←0            ⍝ Don't change this: not suitable for presentations.
+      r.subTocs←0                   ⍝ Don't change this: not suitable for presentations.
+      r.bookmarkLink←0              ⍝ Don't change this: not suitable for presentations.
+      r.ignoreEmbeddedParms←0
+      r.title←'PresentAPL'
+      r.printReportToSession←0
+      r.bookmarkMayStartWithDigit←1
+      r.⎕FX'r←∆List;⎕IO' '⍝ List all variables and possible references in this namespace' '⎕IO←1' 'r←{⍵,[1.5]⍎¨⍵}⎕NL-2 9'
+    ∇
+
+    ∇ r←GetCodeBlocks html;hits
+      :Access Public Shared
+    ⍝ Returns the code found in <pre><code> blocks. Every block is an item. An item might have
+    ⍝ several sub items, depending on the number of lines of the code block in question.
+      html←1↓⊃,/(⎕UCS 13),¨html
+      :If ~0∊⍴hits←'<pre\b[^>]*><code\b[^>]*>'⎕S 0(⍠'Mode' 'D')⊣html
+          r←((⍳⍴html)∊hits)⊂html
+          r←{'<pre\b[^>]*><code\b[^>]*>'⎕R''⊣⍵}¨r
+          r←1↓¨({'</code></pre>'⎕S 0⍠('Mode' 'D')⊣⍵}¨r)↑¨r
+          r←(⎕UCS 13)Split¨r
+      :EndIf
+    ∇
+
+⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝ Private stuff
 
     ∇ html←mainNs MakeSlides presentation;slides;i;slide;ns
       html←''
@@ -124,42 +180,6 @@
       buff r.{⍎'∆slide_',(¯2↑'00',(⍕⍵)),'←⍺'}¨¯1+⍳⍴buff
     ⍝Done
     ∇
-
-    ∇ r←CreateParms
-      :Access Public Shared
-      r←##.MarkAPL.CreateParms
-      r.⎕EX¨'linkToCSS' 'screenCSS' 'printCSS'
-      r.base←''
-      r.homeFolder←¯1
-      r.verbose←1                   ⍝ 1=We need to check the results.
-      r.standalone←1                ⍝ 1=Inject CSS into the resulting HTML file, making it stand-alone.
-      r.cssURL←⊃SplitPath ⎕WSID     ⍝ That's where we expect to find the CSS file.
-      r.css←'PresentAPL_Green.css'  ⍝ The default theme.
-      r.checkFootnotes←0            ⍝ Don't change this: not suitable for presentations.
-      r.subTocs←0                   ⍝ Don't change this: not suitable for presentations.
-      r.bookmarkLink←0              ⍝ Don't change this: not suitable for presentations.
-      r.ignoreEmbeddedParms←0
-      r.title←'PresentAPL'
-      r.printReportToSession←0
-      r.bookmarkMayStartWithDigit←1
-      r.⎕FX'r←∆List;⎕IO' '⍝ List all variables and possible references in this namespace' '⎕IO←1' 'r←{⍵,[1.5]⍎¨⍵}⎕NL-2 9'
-    ∇
-
-    ∇ r←GetCodeBlocks html;hits
-      :Access Public Shared
-    ⍝ Returns the code found in <pre><code> blocks. Every block is an item. An item might have
-    ⍝ several sub items, depending on the number of lines of the code block in question.
-      html←1↓⊃,/(⎕UCS 13),¨html
-      :If ~0∊⍴hits←'<pre\b[^>]*><code\b[^>]*>'⎕S 0(⍠'Mode' 'D')⊣html
-          r←((⍳⍴html)∊hits)⊂html
-          r←{'<pre\b[^>]*><code\b[^>]*>'⎕R''⊣⍵}¨r
-          r←1↓¨({'</code></pre>'⎕S 0⍠('Mode' 'D')⊣⍵}¨r)↑¨r
-          r←(⎕UCS 13)Split¨r
-      :EndIf
-    ∇
-
-
-⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝ Private stuff
 
 
     ∇ r←ConvertData2Meta meta;id;value
@@ -204,7 +224,7 @@
 
 
     ∇ parms←parms GetParmsFromMarkdown markdown;bool;buff
-      :If 0<+/bool←'[parm]:'∘{⍺≡Lowercase(⍴⍺)↑⍵}¨md
+      :If 0<+/bool←'[parm]:'∘{⍺≡Lowercase(⍴⍺)↑⍵}¨markdown
           buff←(⍴'[parm]:')↓¨bool⌿markdown
           buff←↑'='Split¨buff
           buff[;2]←dlb dtb buff[;2]
@@ -219,13 +239,15 @@
       :EndFor
     ∇
 
-    ∇ {r}←InjectCSS parms;fn;list;file
+    ∇ {r}←InjectCSS parms;fn;list;file;css
       :If parms.standalone
           :Trap 22
-              r←(⊂'<style>'),(ReadUtf8File parms.cssURL,'\',parms.css),⊂'</style>'
+              css←ReadUtf8File({0∊⍴⍵:⍵ ⋄ ⍵,'\'}parms.cssURL),parms.css
           :Else
-              r←(⊂'<style>'),(ReadUtf8File parms.cssURL,'\Files\',parms.css),⊂'</style>'
+              css←ReadUtf8File({0∊⍴⍵:⍵ ⋄ ⍵,'\'}parms.cssURL),'\Files\',parms.css
           :EndTrap
+          css←##.MarkAPL.CompressCSS css
+          r←'<style>'css'</style>'
       :Else
           r←⊂'<link rel="stylesheet" type="text/css" href="',parms.cssURL,parms.css,'" /> '
       :EndIf
@@ -245,6 +267,13 @@
           :EndIf
       :EndIf
     ∇
+
+      CheckTitle←{
+          html←⍵
+          blockNo←1+' {0,3}\# '⎕S 2⍠('Greedy' 0)('Mode' 'L')⊣html
+          (blockNo⊃html)~←'<'
+          html
+      }
 
       GetJavaScript←{
           r←''
