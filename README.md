@@ -71,6 +71,12 @@ To make the context command available first check and amend the file `MarkdownFi
 
 When the command is issued on a Markdown file PresentAPL will create a presentation from that Markdown file and save it as a sibling of the Markdown file.
 
+## Meddy
+
+Meddy is a basic Markdown editor that uses MarkAPL as converter. It can be used to edit Markdown that is supposed to be converted into a presentation.
+
+See <https://github.com/aplteam/Meddy> for details.
+
 
 ## Misc
 
@@ -83,6 +89,8 @@ A big thank you to:
 * Stefan Goessner (<http://goessner.net/>) who created Slideous --- I stole a lot from it.
 * Mike Mingard who created the theme PresentAPL_Green.css.
 
-| Kai Jaeger  | APL Team Ltd |
-| Created     | 2016-04-12   |
-| Last update | 2018-09-26   |
+Kai Jaeger ⋄ APL Team Ltd
+
+Created: 2016-04-12
+
+Last update: 2018-10-12
