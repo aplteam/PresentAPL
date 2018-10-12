@@ -26,7 +26,7 @@ body {
   font-size: 100%;
   font-family: Verdana, open-sans;
   font-weight: 300;
-  line-height: 1.5;
+  line-height: 1.6;
 }
 code {
     display: inline;
@@ -39,7 +39,7 @@ pre {
     padding: 5px;
     box-shadow: 5px 5px 5px Black; 
 }
-pre code {  
+pre code {
     color: inherit;
     font-weight: 800;
     border: 1px silver;
@@ -70,7 +70,7 @@ code {
     color: Black;
     font-size: 90%;
     font-weight: 800;
-    padding: 2px 5px;
+    padding: 1px 5px;
     margin: 0;
     font-family: "APLFONT";
 }
@@ -140,7 +140,7 @@ div.slide h1 {
   padding: 0;
   margin: 0 0 20px 0;
   font-size: 160%;
-  border-bottom: solid 3px White ;
+  border-bottom: solid 2px White ;
   font-family: "Open Sans", Verdana;
 
 }

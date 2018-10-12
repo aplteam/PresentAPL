@@ -42,7 +42,7 @@
 
     ∇ r←Version
       :Access Public Shared
-      r←(Last⍕⎕THIS)'2.4.0.3.3' '2018-09-28'
+      r←(Last⍕⎕THIS)'2.4.0.44' '2018-10-12'
     ∇
 
     ∇ History
@@ -173,10 +173,22 @@
       :EndFor
     ∇
 
-    ∇ r←SplitMarkdown md;bool;buff
+    ∇ r←SplitMarkdown md;bool;buff;data;first;noOf
       r←⎕NS''
       bool←('## '∘≡¨3↑¨md)∨'# '∘≡¨2↑¨md
+      :If 0=1⍴bool
+          noOf←¯1+bool⍳1
+          data←md[1+'\[data\]:'⎕S 2⍠('Greedy' 0)('Mode' 'L')('IC' 1)⊣noOf↑md]       ⍝ Get all "leading" `[data]:`
+          (noOf↑md)←'\[data\]:.*$'⎕R''⍠('Greedy' 0)('Mode' 'L')('IC' 1)⊣noOf↑md     ⍝ Remove them from the markdown
+      :Else
+          data←''
+      :EndIf
       buff←bool⊂md
+      :If ~0=≢data
+          first←1⊃buff
+          first←(1⍴first),data,1↓first                                    ⍝ Inject the `[data]` stuff into first slide
+          (1⊃buff)←first
+      :EndIf
       buff r.{⍎'∆slide_',(¯2↑'00',(⍕⍵)),'←⍺'}¨¯1+⍳⍴buff
     ⍝Done
     ∇

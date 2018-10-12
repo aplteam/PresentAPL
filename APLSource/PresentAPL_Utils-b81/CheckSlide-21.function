@@ -1,11 +1,13 @@
  r←no CheckSlide ns;co;res;P;ex;b
- P←#.PresentAPL
+ P←##.PresentAPL
  co←P.GetCodeBlocks ns.html     ⍝ Code
  res←{0::'' ⋄ ⍎¨⍵}¨co           ⍝ results
  ex←2⊃¨ns.data                  ⍝ Expected
- b←res≢¨ex
+ b←res≢¨{2=≡⍵:,⊂⍵ ⋄ ⍵}ex
  :If 1∊b
      r←'Check code block(s): '
      r,←,↑{⍺,',',⍵}/↑¨b/ns.data
      r←'' '<p style="color:red;background-color:white;padding:3px;">'r'</p>' ''
+ :Else
+     r←''
  :EndIf

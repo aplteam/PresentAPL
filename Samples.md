@@ -224,7 +224,7 @@ as the expected result.
 
 ## Testing code -3-
 
-Now let's embed an APL function into the slide:
+The `PresentAPL_Utils` namespace comes with a function `CheckSlide` which will check the results of all code blocks found on a sheet against the values it finds on `exp{n}`.
 
 ~~~
 ⍎⍎#.PresentAPL_Utils.CheckSlide 1⍎⍎
@@ -243,18 +243,19 @@ The `1` is passed as left argument and could refer to expression number 1.
 This is the check function:
 
 ~~~
-     ∇ r←no CheckSlide ns;⎕ML;⎕IO;co;res;P;ex;b
-[1]    ⎕IO←1 ⋄ ⎕ML←3
-[2]    P←#.PresentAPL
-[3]    co←P.GetCodeBlocks ns.html     ⍝ Code
-[4]    res←{0::'' ⋄ ⍎¨⍵}¨co           ⍝ results
-[5]    ex←2⊃¨ns.data                  ⍝ Expected
-[6]    b←res≢¨ex
-[7]    :If 1∊b
-[8]        r←'Check code block(s): '
-[9]        r,←,↑{⍺,',',⍵}/↑¨b/ns.data
-[10]       r,←'{style="color:red;"}'
-[11]   :EndIf
+    ∇ r←no CheckSlide ns;co;res;P;ex;b                                               
+ [1]  P←##.PresentAPL                                                                
+ [2]  co←P.GetCodeBlocks ns.html     ⍝ Code                                          
+ [3]  res←{0::'' ⋄ ⍎¨⍵}¨co           ⍝ results                                       
+ [4]  ex←2⊃¨ns.data                  ⍝ Expected                                      
+ [5]  b←res≢¨{2=≡⍵:,⊂⍵ ⋄ ⍵}ex                                                        
+ [6]  :If 1∊b                                                                        
+ [7]      r←'Check code block(s): '                                                  
+ [8]      r,←,↑{⍺,',',⍵}/↑¨b/ns.data                                                 
+ [9]      r←'' '<p style="color:red;background-color:white;padding:3px;">'r'</p>' '' 
+ [10]  :Else                                                                         
+ [11]      r←''                                                                      
+ [12]  :EndIf                                                                        
      ∇
 ~~~
 

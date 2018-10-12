@@ -1,6 +1,12 @@
+[parm]: standalone = 0
+
 [Data]:author="AuthorName"
 [Data]:company="CompanyName"
 [Data]:date="PresentationDate"
+[Data]:title="PresentationTitle"
+
+[Data]:autoincrement=true
+[Data]:mousesensitive=false
 
 # Test
 
@@ -18,20 +24,11 @@
 
 ## -Test 2-  
 
-[Data]: exp1=5050 3628800
-
-```
-      (+/⍳100)(×/⍳10)
-```
-
-⍎⍎#._PresentAPL.PresentAPL_Utils.CheckSlide 1⍎⍎
-
 1. First
 1. Second
 1. Third
 
 <<Test>>
 
-Same as Test_02.md except that there is a `[Data]` further down.
-This is useful for testing expressions.
+Same as Test_01.md except that the `[Data]` stuff is located **above** the main header.
 This was once a bug.

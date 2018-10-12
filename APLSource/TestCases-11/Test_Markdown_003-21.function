@@ -1,10 +1,10 @@
- R←Test_Markdown_002(stopFlag batchFlag);⎕TRAP;parms;filename;html;markdown;ns
-⍝ Make sure the principles work. Same as Test_01.md except that the `[Data]` stuff is located **above** the main header
+ R←Test_Markdown_003(stopFlag batchFlag);⎕TRAP;parms;filename;html;markdown;ns
+⍝ Make sure the principles work. Same as Test_02.md but with more `[Data]` down the line.
 ⍝ R gets one of: 0=Okay, 1=test case failed, ¯1=test case was not executed due to the "batchFlag"
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
  R←∆Failed
 
- filename←'Tests\Test_02.md'
+ filename←'Tests\Test_03.md'
  markdown←#.APLTreeUtils.ReadUtf8File filename
  parms←##.PresentAPL.CreateParms
  (html ns)←##.PresentAPL.MakePresentationFromMarkdown markdown parms
@@ -14,15 +14,13 @@
  →PassesIf 1=+/'!!Test!!'⍷html
  →PassesIf 1=+/'content="AuthorName"'⍷html
  →PassesIf 1=+/'content="CompanyName"'⍷html
- →PassesIf 1=+/'content="PresentationDate"'⍷html
- →PassesIf 1=+/'content="PresentationTitle"'⍷html
  →PassesIf 1=+/'<li>This'⍷html
  →PassesIf 1=+/'<li>That'⍷html
  →PassesIf 1=+/'<li>More'⍷html
  →PassesIf 1=+/'<li>First'⍷html
  →PassesIf 1=+/'<li>Second'⍷html
  →PassesIf 1=+/'<li>Third'⍷html
- →PassesIf 0=+/'<style>'⍷html     ⍝ Because the Markdown contains [parm]:standalone = 0 !
  →PassesIf 1=+/'«Test»'⍷html
+ →PassesIf 0=+/'<p>Check code block(s):  exp1</p>'⍷html
 
  R←∆OK
