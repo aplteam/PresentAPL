@@ -42,11 +42,13 @@
 
     ∇ r←Version
       :Access Public Shared
-      r←(Last⍕⎕THIS)'2.4.0.44' '2018-10-12'
+      r←(Last⍕⎕THIS)'2.4.1.45' '2018-10-17'
     ∇
 
     ∇ History
       :Access Public Shared
+      ⍝ * 2.4.1
+      ⍝   * New version of MarkAPL: 5.0.0
       ⍝ * 2.4.0
       ⍝   * Some minor improvements and fixes and preparation for including it into Meddy.
       ⍝ * 2.3.0
