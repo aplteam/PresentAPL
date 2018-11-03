@@ -7,6 +7,9 @@
 
 * For details regarding PresentAPL see the file `About_PresentAPL.html`.
 
+["About_PresentAPL.html"](http://htmlpreview.github.com/?https://github.com/aplteam/PresentAPL/blob/master/About_PresentAPL.html)
+
+
 * The file `Samples.html` acts as an example for a basic presentation. It can also be used as a starting point for your own presentation.
 
 * The file `MarkAPL_Cheatsheet.html` should get you going regarding Markdown and MarkAPL, the Markdown converter used by PresentAPL.
