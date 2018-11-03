@@ -5,9 +5,7 @@
 
 `PresentAPL.exe` is a program that allows you to convert a Markdown file into a presentation that can be viewed like a slide show with any modern browser by following some simple rules.
 
-* For details regarding PresentAPL see the file `About_PresentAPL.html`.
-
-["About_PresentAPL.html"](http://htmlpreview.github.com/?https://github.com/aplteam/PresentAPL/blob/master/About_PresentAPL.html)
+* For details regarding PresentAPL see the file ["About_PresentAPL.html"](http://htmlpreview.github.com/?https://github.com/aplteam/PresentAPL/blob/master/About_PresentAPL.html).
 
 
 * The file `Samples.html` acts as an example for a basic presentation. It can also be used as a starting point for your own presentation.
