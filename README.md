@@ -10,12 +10,10 @@
 
 * The file ["Samples.html"](http://htmlpreview.github.com/?https://github.com/aplteam/PresentAPL/blob/master/Samples.html) acts as an example for a basic presentation. It can also be used as a starting point for your own presentation.
 
-* The file ["MarkAPL_Cheatsheet.html"]
-(http://htmlpreview.github.com/?https://github.com/aplteam/MarkAPL/blob/master/MarkAPL_CheatSheet.html) 
+* The file ["MarkAPL_Cheatsheet.html"](http://htmlpreview.github.com/?https://github.com/aplteam/MarkAPL/blob/master/MarkAPL_CheatSheet.html) 
 should get you going regarding Markdown and MarkAPL, the Markdown converter used by PresentAPL.
 
-* The file ["MarkAPL.html"]
-(http://htmlpreview.github.com/?https://github.com/aplteam/MarkAPL/blob/master/MarkAPL.html) 
+* The file ["MarkAPL.html"](http://htmlpreview.github.com/?https://github.com/aplteam/MarkAPL/blob/master/MarkAPL.html) 
 is a full reference to MarkAPL.
 
 
