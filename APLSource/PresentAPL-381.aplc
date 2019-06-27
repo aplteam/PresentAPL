@@ -1,40 +1,30 @@
 :Class PresentAPL
-⍝ Creates a stand-alone HTML file that acts as a presentation in every modern browser.
-⍝
+⍝ Creates a stand-alone HTML file that acts as a presentation in every modern browser.\\
 ⍝ ## Work flow
-⍝
-⍝ 1. Create a parameter space:
+⍝ 1. Create a parameter space:\\
 ⍝    `parms←#.PresentAPL.CreateParms`
-⍝ 2. Specify the input file:
+⍝ 2. Specify the input file:\\
 ⍝    `parms.inputFilename←'foo.md'`
-⍝ 3. Convert the Markdown file and create the HTML file:
-⍝    `#.PresentAPL.MakePresentation parms'
-⍝
+⍝ 3. Convert the Markdown file and create the HTML file:\\
+⍝    `#.PresentAPL.MakePresentation parms'\\
 ⍝ `parms.outputFilename` tells you the name of the output file if not set by yourself.
 ⍝ It defaults to the name and location of the input file with a different extension:
-⍝ "html" rather than "md".
-⍝
+⍝ "html" rather than "md".\\
 ⍝ ## Details
-⍝
 ⍝ The resulting HTML file can be viewed with any browser and behaves like a slide show as
-⍝ long as JavaScript is enabled.
-⍝
+⍝ long as JavaScript is enabled.\\
 ⍝ If the `standalone` parameter is 1 (that's the default) then the CSS and JavaScript are
-⍝ injected into the resulting HTML file, making this HTML page effectively stand-alone.
-⍝
+⍝ injected into the resulting HTML file, making this HTML page effectively stand-alone.\\
 ⍝ The CSS is just a suggestion and can be changed by a user, therefore it is kept
-⍝ in a file which can be edited or replaced.
-⍝
+⍝ in a file which can be edited or replaced.\\
 ⍝ The JavaScript is much less likely to need modification. It is therefore not kept in a file.
-⍝ See `GetJavascript`.
-⍝
+⍝ See `GetJavascript`.\\
 ⍝ ## Traps
 ⍝ Note that the level-1 header must not contain a `<` character. If it would the HTML would
-⍝ not render at all.
-⍝
+⍝ not render at all.\\
 ⍝ License: <http://creativecommons.org/licenses/LGPL/2.1/>\\
 ⍝ Author Kai Jaeger <https://www.linkedin.com/in/kaijaeger>\\
-⍝ Homepage: <http://aplwiki.com/PresentAPL>
+⍝ Homepage: <https://github.com/aplteam/PresentAPL>
 
     :Include ##.APLTreeUtils
 
@@ -42,15 +32,70 @@
 
     ∇ r←Version
       :Access Public Shared
-      r←(Last⍕⎕THIS)'2.4.1.45' '2018-10-17'
+      r←(Last⍕⎕THIS)'2.6.0.70' '2019-06-27'
     ∇
 
     ∇ History
       :Access Public Shared
-      ⍝ * 2.4.1
-      ⍝   * New version of MarkAPL: 5.0.0
+      ⍝ * 2.6.0
+      ⍝   * `QLX` function added to script
       ⍝\\
       ⍝ For information regarding older versions see <https://github.com/aplteam/PresentAPL/releases>
+    ∇
+
+    ∇ Qlx;args;ff;files;file;report;msg;problems;⎕TRAP;parms;Ini;home
+      :Access Public Shared
+      {}AllowRide_⍣0⊣4599 1
+      #.⎕SHADOW'Errorparms'
+      #.ErrorParms←#.HandleError.CreateParms
+      #.ErrorParms.customFns←(⍕⎕THIS),'.TellProblem'
+      ⎕TRAP←#.HandleError.SetTrap'#.ErrorParms'
+      #.FilesAndDirs.PolishCurrentDir
+      args←2 ⎕NQ'#' 'GetCommandLineArgs'
+      home←1⊃⎕NPARTS 1⊃args
+      files←1↓args
+      files←('.md'∘≡¨#.APLTreeUtils.Lowercase ¯3↑¨files)/files
+      :If 0∊⍴files
+          'ff'⎕WC'MsgBox'('Style' 'Error')('Caption' 'PresentAPL')('Btns' 'OK')('Text' 'No Markdown file specified')
+          ⎕DQ'ff'
+          OFF 1
+      :Else
+          report←''
+          :If #.FilesAndDirs.Exists home,'\PresentAPL.ini'
+              Ini←⎕NEW #.IniFiles(,⊂home,'\PresentAPL.ini')
+          :ElseIf #.FilesAndDirs.Exists home,'\PresentAPL.ini'
+              Ini←⎕NEW #.IniFiles home,'\PresentAPL.ini'
+          :Else
+              Ini←⍬
+          :EndIf
+          :For file :In files
+              :If Ini≡⍬
+                  parms←#.PresentAPL.CreateParms
+                  parms.inputFilename←file
+                  parms.outputFilename←(¯3↓file),'.html'
+                  :If #.APLTreeUtils.IsDevelopment
+                      parms.cssURL←⊃⎕NPARTS #.FilesAndDirs.PWD,'\'
+                  :Else
+                      parms.cssURL←⊃#.APLTreeUtils.SplitPath⊃args
+                  :EndIf
+              :Else
+                  parms←'flat'Ini.Convert ⎕NS''
+                  parms.inputFilename←file
+                  parms.homeFolder←¯1
+                  parms.base←''
+                  parms.bookmarkMayStartWithDigit←1
+                  parms←AddDefaultParms parms
+              :EndIf
+              :If 0≠≢problems←#.PresentAPL.MakePresentationFromFile parms
+                  report,←(⊂'*** Problems:'),'  '∘,¨problems
+              :EndIf
+              report,←⊂file
+          :EndFor
+          msg←(⊂(⍕⍴report),' presentation',((1<⍴report)/'s'),' created: '),'  '∘,¨(¯2↓¨report),¨⊂'html'
+          'ff'⎕WC'MsgBox'('Style' 'Info')('Btns' 'OK')('Text'msg)
+          ⎕DQ'ff'
+          OFF 0
+      :EndIf
     ∇
 
     ∇ report←MakePresentationFromFile parms;md;pres;main;ns;title;html
@@ -135,6 +180,38 @@
       :EndIf
     ∇
 
+    ∇ r←no CheckSlide ns;co;res;ex;b
+      :Access Public Shared
+      co←GetCodeBlocks ns.html       ⍝ Code
+      res←{0::'' ⋄ ⍎¨⍵}¨co           ⍝ results
+      ex←2⊃¨ns.data                  ⍝ Expected
+      b←res≢¨{2=≡⍵:,⊂⍵ ⋄ ⍵}ex
+      :If 1∊b
+          r←'Check code block(s): '
+          r,←,↑{⍺,',',⍵}/↑¨b/ns.data
+          r←'' '<p style="color:red;background-color:white;padding:3px;">'r'</p>' ''
+      :Else
+          r←''
+      :EndIf
+    ∇
+
+    ∇ {r}←TellProblem parms;∆
+      :Access Public Shared
+      r←⍬
+      ∆←''
+      ∆,←⊂'Caption' 'PresentAPL Problem'
+      ∆,←⊂'Style' 'Error'
+      ∆,←⊂'Btns' 'OK'
+      ∆,←⊂'Text'(↑parms.LastError)
+      'ff'⎕WC(⊂'MsgBox'),∆
+      ⎕DQ'ff'
+      :If #.APLTreeUtils.IsDevelopment
+          →
+      :Else
+          ⎕OFF
+      :EndIf
+    ∇
+
 ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝ Private stuff
 
     ∇ html←mainNs MakeSlides presentation;slides;i;slide;ns
@@ -161,8 +238,8 @@
       bool←('## '∘≡¨3↑¨md)∨'# '∘≡¨2↑¨md
       :If 0=1⍴bool
           noOf←¯1+bool⍳1
-          data←md[1+'\[data\]:'⎕S 2⍠('Greedy' 0)('Mode' 'L')('IC' 1)⊣noOf↑md]       ⍝ Get all "leading" `[data]:`
-          (noOf↑md)←'\[data\]:.*$'⎕R''⍠('Greedy' 0)('Mode' 'L')('IC' 1)⊣noOf↑md     ⍝ Remove them from the markdown
+          data←md[1+'\[data\]:'⎕S 2⍠('Greedy' 0)('Mode' 'L')('IC' 1)⊣noOf↑md]           ⍝ Get all "leading" `[data]:`
+          (noOf↑md)←noOf↑'\[data\]:.*$'⎕R''⍠('Greedy' 0)('Mode' 'L')('IC' 1)⊣noOf↑md    ⍝ Remove them from the markdown
       :Else
           data←''
       :EndIf
@@ -594,5 +671,65 @@
           r,←⊂''
           r
       }
+
+    ∇ {r}←AllowRide n;rc;port;wait
+      :If 0=IsConnectedToRide ⍬
+          :If n.∆INI.Exist'Ride' 'Allow'
+          :AndIf n.∆INI.Exist'Ride' 'Port'
+          :AndIf ↑n.∆INI.Get'Ride' 'Allow'
+              port←↑n.∆INI.Get'Ride' 'Port'
+              wait←{0=n.∆INI.Exist'Ride' 'Wait':0 ⋄ ↑n.∆INI.Get'Ride' 'Wait'}⍬
+              AllowRide_ port wait
+          :EndIf
+      :EndIf
+    ∇
+
+    ∇ {r}←AllowRide_(port waitFlag);rc
+      r←⍬
+      :If 0=IsConnectedToRide ⍬
+          :If 0=≢##.FilesAndDirs.Dir'conga??_32.dll'
+              OFF 106 ⍝ means:                    "Conga DLL is missing"
+          :Else
+              {}3502⌶0
+              rc←3502⌶'Serve::',⍕port
+              :If rc≠0
+                  11 ⎕SIGNAL⍨'Ride error when resetting connection string to "',('Serve::',⍕port)'"; RC=',⍕rc
+              :EndIf
+              rc←3502⌶1
+              :If ~rc∊0 ¯1
+                  :If 64≠rc
+                      11 ⎕SIGNAL'Another application seems to use port ',⍕port
+                  :Else
+                      11 ⎕SIGNAL⍨'Ride error when trying to activate Ride; RC=',⍕rc
+                  :EndIf
+              :EndIf
+              {}{_←⎕DL ⍵ ⋄ ∇ ⍵}⍣(⊃waitFlag)⊣1     ⍝ Endless loop that allows us to have a RIDE and wait for an interrupt
+          :EndIf
+      :EndIf
+      :If #.APLTreeUtils.IsDevelopment
+          →
+      :Else
+          ⎕OFF rc
+      :EndIf
+    ∇
+
+    IsConnectedToRide←{3501⌶⊣⍬}
+
+    ∇ OFF rc
+      :If #.APLTreeUtils.IsDevelopment
+          →
+      :Else
+          ⎕OFF rc
+      :EndIf
+    ∇
+
+    ∇ parms←AddDefaultParms parms;defaults;bool;list;buff
+      defaults←CreateParms
+      list←dmb↓defaults.⎕NL 2
+      :If 0<+/bool←~list∊dmb↓parms.⎕NL 2
+          buff←defaults.{⍵(⍎⍵)}¨bool/list
+          parms.{⍎(1⊃⍵),'←2⊃⍵'}¨buff
+      :EndIf
+    ∇
 
 :EndClass

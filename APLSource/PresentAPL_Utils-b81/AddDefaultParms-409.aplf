@@ -1,7 +1,0 @@
- parms←AddDefaultParms parms;defaults;bool;list;buff
- defaults←#.PresentAPL.CreateParms
- list←#.APLTreeUtils.dmb↓defaults.⎕NL 2
- :If 0<+/bool←~list∊#.APLTreeUtils.dmb↓parms.⎕NL 2
-     buff←defaults.{⍵(⍎⍵)}¨bool/list
-     parms.{⍎(1⊃⍵),'←2⊃⍵'}¨buff
- :EndIf

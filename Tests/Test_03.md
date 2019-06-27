@@ -24,7 +24,7 @@
       (+/⍳100)(×/⍳10)
 ```
 
-⍎⍎#._PresentAPL.PresentAPL_Utils.CheckSlide 1⍎⍎
+⍎⍎#._PresentAPL.PresentAPL.CheckSlide 1⍎⍎
 
 1. First
 1. Second
