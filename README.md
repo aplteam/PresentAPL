@@ -16,6 +16,12 @@ should get you going regarding Markdown and MarkAPL, the Markdown converter used
 * The file ["MarkAPL.html"](http://htmlpreview.github.com/?https://github.com/aplteam/MarkAPL/blob/master/MarkAPL.html) 
 is a full reference to MarkAPL.
 
+Note that PresentAPL can be used in to different ways.
+
+* On any platform you can load the workspace `PresetAPL.dws` and create or modify a presentation from within the workspace. For more inforamtion see "Using PresentAPL from within APL code" further down.
+
+* If you use the Windows platform then you can use `PresetAPL.exe`. For this you down't even need Dyalog APL at all.
+
 
 ## How to create a presentation  
 
@@ -25,11 +31,11 @@ The simplest way to use PresentAPL is to drag and drop one or more presentation 
 
 ### Command line
 
-Call `PresentAPL.exe` --- for example in a console window --- and pass the name(s) of the markdown files (extension `.md` is required!) you want to be converted into presentations.
+Call `PresentAPL.exe` (for example in a console window) and pass the name(s) of the markdown files (extension `.md` is required!) you want to be converted into presentations.
 
 ### Via the context menu
 
-You can also add a context menu entry "Create presentation with PresentAPL"; see below for details how to do that.
+You can also add a context menu entry "Create presentation with PresentAPL" to the Windows Explorer ; see below for details how to do that.
 
 The resulting presentation is in any case a stand-alone HTML file created from the markdown file. If there is already a file with that name it will be overwritten. It will go into the same folder the source files came from, and with the same name except the extension which will be `.html`.
 
@@ -61,7 +67,7 @@ If you want to change default parameters then you have several choices:
 
 ## Using PresentAPL from within APL code
 
-You can also use the class `PresentAPL` from within your Dyalog APL workspace. It needs the class `MarkAPL` and the namespace script `APLTreeUtils`. For details see the class `PresentAPL`. 
+You can also use the class `PresentAPL` from within your Dyalog APL workspace. It needs the class `MarkAPL` and the namespace script `APLTreeUtils`. For details make sure that the class `PresentAPL` is present in your APL workspace and then execute `]adoc PresentAPL`. 
 
 
 ## Add a command "Create presentation with PresentAPL" to context menu.
@@ -78,12 +84,12 @@ When the command is issued on a Markdown file PresentAPL will create a presentat
 
 Meddy is a basic Markdown editor that uses MarkAPL as converter. It can be used to edit Markdown that is supposed to be converted into a presentation.
 
-See <https://github.com/aplteam/Meddy> for details.
+See <https://github.com/aplteam/Meddy> for details. Note however that Meddy is available only for the Windows platform.
 
 
 ## Misc
 
-Please send comments, suggestions and bug reports to kai@aplteam.com.
+Please send comments, suggestions and bug reports to info@aplteam.com.
 
 License: http://creativecommons.org/licenses/LGPL/2.1/
 
@@ -96,4 +102,4 @@ Kai Jaeger ⋄ APL Team Ltd
 
 Created: 2016-04-12
 
-Last update: 2018-10-12
+Last update: 2019-06-29
