@@ -32,7 +32,7 @@
 
     ∇ r←Version
       :Access Public Shared
-      r←(Last⍕⎕THIS)'2.6.0.70' '2019-06-27'
+      r←(Last⍕⎕THIS)'2.6.0.72' '2019-06-27'
     ∇
 
     ∇ History
