@@ -1,0 +1,29 @@
+ R←Test_Markdown_001(stopFlag batchFlag);⎕TRAP;parms;filename;html;markdown;ns
+⍝ Make sure the principles work - a very basic test with just the defaults.
+⍝ R gets one of: 0=Okay, 1=test case failed, ¯1=test case was not executed due to the "batchFlag"
+ ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
+ R←T._Failed
+
+ filename←##.CiderConfig.HOME, '/Tests/Test_01.md'
+ markdown←⊃⎕NGET filename 1
+ parms←##.PresentAPL.CreateParms
+ parms.cssURL←##.CiderConfig.HOME
+ (html ns)←##.PresentAPL.MakePresentationFromMarkdown markdown parms
+ html←1↓↑,/(⎕UCS 13),¨html
+
+ →T.PassesIf 0∊⍴ns.report
+ →T.PassesIf 1=+/'!!Test!!'⍷html
+ →T.PassesIf 1=+/'content="AuthorName"'⍷html
+ →T.PassesIf 1=+/'content="CompanyName"'⍷html
+ →T.PassesIf 1=+/'content="PresentationDate"'⍷html
+ →T.PassesIf 1=+/'content="PresentationTitle"'⍷html
+ →T.PassesIf 1=+/'<li>This'⍷html
+ →T.PassesIf 1=+/'<li>That'⍷html
+ →T.PassesIf 1=+/'<li>More'⍷html
+ →T.PassesIf 1=+/'<li>First'⍷html
+ →T.PassesIf 1=+/'<li>Second'⍷html
+ →T.PassesIf 1=+/'<li>Third'⍷html
+ →T.PassesIf 0=+/'<style>'⍷html     ⍝ Because the Markdown contains [parm]:standalone = 0 !
+ →T.PassesIf 1=+/'«Test»'⍷html
+
+ R←T._OK

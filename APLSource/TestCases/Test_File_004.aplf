@@ -1,0 +1,19 @@
+ R←Test_File_004(stopFlag batchFlag);⎕TRAP;parms;filename;html;report
+⍝ The input file specifies a couple of PresentAPL parameters.
+⍝ R gets one of: 0=Okay, 1=test case failed, ¯1=test case was not executed due to the "batchFlag"
+ ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
+ R←T._Failed
+
+ filename←##.CiderConfig.HOME, '/Tests/Markdown.html'
+ FilesAndDirs.DeleteFile filename
+ parms←##.PresentAPL.CreateParms
+ parms.inputFilename←(¯4↓filename),'md'
+ parms.cssURL←##.CiderConfig.HOME,'/'
+ report←##.PresentAPL.MakePresentationFromFile parms
+
+ →T.PassesIf 0∊⍴report
+ →T.PassesIf FilesAndDirs.Exists filename
+ html←⊃⎕nget filename
+ →T.PassesIf 1=+/'<h1>MarkAPL</h1>'⍷html
+
+ R←T._OK

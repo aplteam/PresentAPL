@@ -1,0 +1,24 @@
+ R←Test_File_005(stopFlag batchFlag);⎕TRAP;parms;filename;html;report;folder
+⍝ Convert a file that luves on its own in an otherwise empty folder.
+⍝ R gets one of: 0=Okay, 1=test case failed, ¯1=test case was not executed due to the "batchFlag"
+ ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
+ R←T._Failed
+
+ folder←''FilesAndDirs.GetTempFilename2''
+ FilesAndDirs.DeleteFile folder
+ FilesAndDirs.RmDir folder
+ 'Create!'FilesAndDirs.CheckPath folder
+
+ filename←##.CiderConfig.HOME,'/About_PresentAPL.md'
+ (folder,'\')⎕NCOPY filename
+ parms←##.PresentAPL.CreateParms
+ parms.inputFilename←filename
+ parms.cssURL←##.CiderConfig.HOME,'/'
+ report←##.PresentAPL.MakePresentationFromFile parms
+
+ →T.PassesIf 0∊⍴report
+ →T.PassesIf FilesAndDirs.Exists(¯2↓filename),'html'
+ html←⊃⎕NGET(¯2↓filename),'html'
+ →T.PassesIf 1=+/'<h1>About PresentAPL</h1>'⍷html
+
+ R←T._OK
