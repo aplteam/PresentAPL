@@ -2,22 +2,23 @@
 ⍝ Convert a file that luves on its own in an otherwise empty folder.
 ⍝ R gets one of: 0=Okay, 1=test case failed, ¯1=test case was not executed due to the "batchFlag"
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
- R←∆Failed
+ R←T._Failed
 
- folder←''#.FilesAndDirs.GetTempFilename2''
- #.FilesAndDirs.DeleteFile folder
- #.FilesAndDirs.RmDir folder
- 'Create!'#.FilesAndDirs.CheckPath folder
+ folder←''FilesAndDirs.GetTempFilename2''
+ FilesAndDirs.DeleteFile folder
+ FilesAndDirs.RmDir folder
+ 'Create!'FilesAndDirs.CheckPath folder
 
- filename←'About_PresentAPL.md'
- filename #.FilesAndDirs.CopyTo folder,'\'
+ filename←##.CiderConfig.HOME,'/About_PresentAPL.md'
+ (folder,'\')⎕NCOPY filename
  parms←##.PresentAPL.CreateParms
- parms.inputFilename←folder,'/',filename
+ parms.inputFilename←filename
+ parms.cssURL←##.CiderConfig.HOME,'/'
  report←##.PresentAPL.MakePresentationFromFile parms
 
- →PassesIf 0∊⍴report
- →PassesIf #.FilesAndDirs.Exists folder,'/',(¯2↓filename),'html'
- html←1↓↑,/(⎕UCS 13),¨#.APLTreeUtils.ReadUtf8File folder,'/',(¯2↓filename),'html'
- →PassesIf 1=+/'<h1>About PresentAPL</h1>'⍷html
+ →T.PassesIf 0∊⍴report
+ →T.PassesIf FilesAndDirs.Exists(¯2↓filename),'html'
+ html←⊃⎕NGET(¯2↓filename),'html'
+ →T.PassesIf 1=+/'<h1>About PresentAPL</h1>'⍷html
 
- R←∆OK
+ R←T._OK

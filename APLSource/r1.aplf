@@ -1,7 +1,10 @@
  r1;parms;report
  parms←PresentAPL.CreateParms
- parms.inputFilename←'About_PresentAPL.md'
- :If ~0∊≢report←PresentAPL.MakePresentationFromFile parms
+ parms.inputFilename←CiderConfig.HOME,'/About_PresentAPL.md'
+ parms.cssURL←CiderConfig.HOME
+ :If 0=≢report←PresentAPL.MakePresentationFromFile parms
+     ⎕←']Open ',parms.outputFilename
+ :Else
      ⎕←'*** Report:'
      ⎕←⍪r
  :EndIf

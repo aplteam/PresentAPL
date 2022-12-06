@@ -23,20 +23,24 @@
 ⍝ Note that the level-1 header must not contain a `<` character. If it would the HTML would
 ⍝ not render at all.\\
 ⍝ License: <http://creativecommons.org/licenses/LGPL/2.1/>\\
-⍝ Author Kai Jaeger <https://www.linkedin.com/in/kaijaeger>\\
+⍝ Author Kai Jaeger <https://kai-jaeger.de>\\
 ⍝ Homepage: <https://github.com/aplteam/PresentAPL>
-
-    :Include ##.APLTreeUtils
 
     ⎕IO←1 ⋄ ⎕ML←1
 
     ∇ r←Version
       :Access Public Shared
-      r←(Last⍕⎕THIS)'2.6.0.72' '2019-06-27'
+      r←'PresentAPL' '4.0.0+73' '2022-10-24'
     ∇
 
     ∇ History
       :Access Public Shared
+      ⍝ * 4.0.0
+      ⍝   * Does not come as an EXE anymore: just a workspace that needs loading
+      ⍝   * Bugs fixed that prevented slides to be written to disk
+      ⍝ * 3.0.0
+      ⍝   * Does not :Include APLTreeUtils any more but relies on APLTreeUtils2
+      ⍝   * Managed by Cider rather than acre
       ⍝ * 2.6.0
       ⍝   * `QLX` function added to script
       ⍝\\
@@ -50,21 +54,21 @@
       #.ErrorParms←#.HandleError.CreateParms
       #.ErrorParms.customFns←(⍕⎕THIS),'.TellProblem'
       ⎕TRAP←#.HandleError.SetTrap'#.ErrorParms'
-      #.FilesAndDirs.PolishCurrentDir
+      ##.FilesAndDirs.PolishCurrentDir
       args←2 ⎕NQ'#' 'GetCommandLineArgs'
       home←1⊃⎕NPARTS 1⊃args
       files←1↓args
-      files←('.md'∘≡¨#.APLTreeUtils.Lowercase ¯3↑¨files)/files
+      files←('.md'∘≡¨⎕C ¯3↑¨files)/files
       :If 0∊⍴files
           'ff'⎕WC'MsgBox'('Style' 'Error')('Caption' 'PresentAPL')('Btns' 'OK')('Text' 'No Markdown file specified')
           ⎕DQ'ff'
           OFF 1
       :Else
           report←''
-          :If #.FilesAndDirs.Exists home,'\PresentAPL.ini'
-              Ini←⎕NEW #.IniFiles(,⊂home,'\PresentAPL.ini')
-          :ElseIf #.FilesAndDirs.Exists home,'\PresentAPL.ini'
-              Ini←⎕NEW #.IniFiles home,'\PresentAPL.ini'
+          :If ##.FilesAndDirs.Exists home,'\PresentAPL.ini'
+              Ini←⎕NEW ##.IniFiles(,⊂home,'\PresentAPL.ini')
+          :ElseIf ##.FilesAndDirs.Exists home,'\PresentAPL.ini'
+              Ini←⎕NEW ##.IniFiles home,'\PresentAPL.ini'
           :Else
               Ini←⍬
           :EndIf
@@ -73,10 +77,10 @@
                   parms←#.PresentAPL.CreateParms
                   parms.inputFilename←file
                   parms.outputFilename←(¯3↓file),'.html'
-                  :If #.APLTreeUtils.IsDevelopment
-                      parms.cssURL←⊃⎕NPARTS #.FilesAndDirs.PWD,'\'
+                  :If ##.APLTreeUtils2.IsDevelopment
+                      parms.cssURL←⊃⎕NPARTS ##.FilesAndDirs.PWD,'\'
                   :Else
-                      parms.cssURL←⊃#.APLTreeUtils.SplitPath⊃args
+                      parms.cssURL←⊃##.APLTreeUtils2.SplitPath⊃args
                   :EndIf
               :Else
                   parms←'flat'Ini.Convert ⎕NS''
@@ -104,11 +108,11 @@
       parms.linkToCSS←~parms.standalone
       parms.screenCSS←parms.css
       parms.printCSS←''
-      md←ReadUtf8File parms.inputFilename
+      md←⊃##.FilesAndDirs.NGET parms.inputFilename 1
       :If 0∊⍴parms.outputFilename
-          parms.outputFilename←(⊃'.'SplitPath parms.inputFilename),'html'
+          parms.outputFilename←(⊃'.'##.APLTreeUtils2.SplitPath parms.inputFilename),'html'
       :ElseIf (¯1↑parms.outputFilename)∊'/\'
-          parms.outputFilename,←2⊃SplitPath(⊃'.'SplitPath parms.inputFilename),'html'
+          parms.outputFilename,←2⊃##.APLTreeUtils2.SplitPath(⊃'.'##.APLTreeUtils2.SplitPath parms.inputFilename),'html'
       :EndIf
       parms(GetParmsFromMarkdown)←md
       pres←SplitMarkdown md
@@ -123,7 +127,7 @@
       html,←⊂'<div class="slides">'
       html,←ns MakeSlides pres
       html,←⊂'</div>'
-      WriteUtf8File parms.outputFilename html
+      (⊂html)##.FilesAndDirs.NPUT parms.outputFilename 1
      ⍝Done
     ∇
 
@@ -155,7 +159,7 @@
       r.homeFolder←¯1
       r.verbose←1                   ⍝ 1=We need to check the results.
       r.standalone←1                ⍝ 1=Inject CSS into the resulting HTML file, making it stand-alone.
-      r.cssURL←⊃SplitPath ⎕WSID     ⍝ That's where we expect to find the CSS file.
+      r.cssURL←⊃##.APLTreeUtils2.SplitPath ⎕WSID     ⍝ That's where we expect to find the CSS file.
       r.css←'PresentAPL_Blue.css'   ⍝ The default theme.
       r.checkFootnotes←0            ⍝ Don't change this: not suitable for presentations.
       r.subTocs←0                   ⍝ Don't change this: not suitable for presentations.
@@ -176,7 +180,7 @@
           r←((⍳⍴html)∊hits)⊂html
           r←{'<pre\b[^>]*><code\b[^>]*>'⎕R''⊣⍵}¨r
           r←1↓¨({'</code></pre>'⎕S 0⍠('Mode' 'D')⊣⍵}¨r)↑¨r
-          r←(⎕UCS 13)Split¨r
+          r←(⎕UCS 13)##.APLTreeUtils2.Split¨r
       :EndIf
     ∇
 
@@ -205,7 +209,7 @@
       ∆,←⊂'Text'(↑parms.LastError)
       'ff'⎕WC(⊂'MsgBox'),∆
       ⎕DQ'ff'
-      :If #.APLTreeUtils.IsDevelopment
+      :If ##.APLTreeUtils2.IsDevelopment
           →
       :Else
           ⎕OFF
@@ -296,10 +300,10 @@
 
 
     ∇ parms←parms GetParmsFromMarkdown markdown;bool;buff
-      :If 0<+/bool←'[parm]:'∘{⍺≡Lowercase(⍴⍺)↑⍵}¨markdown
+      :If 0<+/bool←'[parm]:'∘{⍺≡⎕C(⍴⍺)↑⍵}¨markdown
           buff←(⍴'[parm]:')↓¨bool⌿markdown
-          buff←↑'='Split¨buff
-          buff[;2]←dlb dtb buff[;2]
+          buff←↑'='##.APLTreeUtils2.Split¨buff
+          buff[;2]←##.APLTreeUtils2.DLB ##.APLTreeUtils2.DTB buff[;2]
           parms.{⍎(1⊃⍵),'←',⍕2⊃⍵}¨↓buff
       :EndIf
     ∇
@@ -314,9 +318,9 @@
     ∇ {r}←InjectCSS parms;fn;list;file;css
       :If parms.standalone
           :Trap 22
-              css←ReadUtf8File({0∊⍴⍵:⍵ ⋄ ⍵,'\'}parms.cssURL),parms.css
+              css←⊃##.FilesAndDirs.NGET({0∊⍴⍵:⍵ ⋄ ⍵,'\'}parms.cssURL),parms.css
           :Else
-              css←ReadUtf8File({0∊⍴⍵:⍵ ⋄ ⍵,'\'}parms.cssURL),'\Files\',parms.css
+              css←⊃##.FilesAndDirs.NGET({0∊⍴⍵:⍵ ⋄ ⍵,'\'}parms.cssURL),'\Files\',parms.css
           :EndTrap
           css←##.MarkAPL.CompressCSS css
           r←'<style>'css'</style>'
@@ -330,9 +334,9 @@
       :If 0         ⍝ We have decided that the JavaScript comes from within the PresentAPL class.
           :If parms.standalone
               :Trap 22
-                  r←(⊂'<script>'),(ReadUtf8File parms.cssURL,'\PresentAPL.js'),⊂'</script>'
+                  r←(⊂'<script>'),(##.FilesAndDirs.NGET parms.cssURL,'\PresentAPL.js'),⊂'</script>'
               :Else
-                  r←(⊂'<script>'),(ReadUtf8File parms.URL,'\Files\PresentAPL.js'),⊂'</script>'
+                  r←(⊂'<script>'),(##.FilesAndDirs.NGET parms.URL,'\Files\PresentAPL.js'),⊂'</script>'
               :EndTrap
           :Else
               r←⊂'<script src="PresentAPL.js" type="text/javascript"> </script>'
@@ -416,7 +420,7 @@
           r,←⊂'               Slideous.gotoslide(Slideous.count, true, true); evt.cancel = !Slideous.showall; break;'
           r,←⊂'            case 36: // home ... first sssslide (not recognised by opera)'
           r,←⊂'               Slideous.gotoslide(1, true, true); evt.cancel = !Slideous.showall; break;'
-          r,←⊂'            case 65: // A ... show All'
+          r,←⊂'            case 65: // ##.APLTreeUtils2 ... show All'
           r,←⊂'            case 80: // P ... Print mode'
           r,←⊂'               Slideous.toggleshowall(!Slideous.showall); evt.cancel = true; break;'
           r,←⊂'            case 67: // C ... goto contents'
@@ -706,7 +710,7 @@
               {}{_←⎕DL ⍵ ⋄ ∇ ⍵}⍣(⊃waitFlag)⊣1     ⍝ Endless loop that allows us to have a RIDE and wait for an interrupt
           :EndIf
       :EndIf
-      :If #.APLTreeUtils.IsDevelopment
+      :If ##.APLTreeUtils2.IsDevelopment
           →
       :Else
           ⎕OFF rc
@@ -716,7 +720,7 @@
     IsConnectedToRide←{3501⌶⊣⍬}
 
     ∇ OFF rc
-      :If #.APLTreeUtils.IsDevelopment
+      :If ##.APLTreeUtils2.IsDevelopment
           →
       :Else
           ⎕OFF rc
@@ -725,8 +729,8 @@
 
     ∇ parms←AddDefaultParms parms;defaults;bool;list;buff
       defaults←CreateParms
-      list←dmb↓defaults.⎕NL 2
-      :If 0<+/bool←~list∊dmb↓parms.⎕NL 2
+      list←##.APLTreeUtils2.DMB↓defaults.⎕NL 2
+      :If 0<+/bool←~list∊##.APLTreeUtils2.DMB↓parms.⎕NL 2
           buff←defaults.{⍵(⍎⍵)}¨bool/list
           parms.{⍎(1⊃⍵),'←2⊃⍵'}¨buff
       :EndIf

@@ -3,16 +3,17 @@
 ⍝ This would perent the HTML from rendering, apparently due to a bug in the JavaScript.
 ⍝ R gets one of: 0=Okay, 1=test case failed, ¯1=test case was not executed due to the "batchFlag"
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
- R←∆Failed
+ R←T._Failed
 
- filename←'Tests\Test_title.html'
- #.FilesAndDirs.DeleteFile filename
+ filename←##.CiderConfig.HOME,'/Tests/Test_title.html'
+ FilesAndDirs.DeleteFile filename
  parms←##.PresentAPL.CreateParms
  parms.inputFilename←(¯4↓filename),'md'
+ parms.cssURL←##.CiderConfig.HOME
  report←##.PresentAPL.MakePresentationFromFile parms
 
- →PassesIf 0∊⍴report
- html←'flat'#.APLTreeUtils.ReadUtf8File filename
- →PassesIf 0=+/'&lt;'⍷{⍵↑⍨¯2+1⍳⍨'/>'⍷⍵}'<meta name="title" content="'{⍵↓⍨(¯1+⍴⍺)+1⍳⍨⍺⍷⍵}html
+ →T.PassesIf 0∊⍴report
+ html←⊃⎕NGET filename
+ →T.PassesIf 0=+/'&lt;'⍷{⍵↑⍨¯2+1⍳⍨'/>'⍷⍵}'<meta name="title" content="'{⍵↓⍨(¯1+⍴⍺)+1⍳⍨⍺⍷⍵}html
 
- R←∆OK
+ R←T._OK
