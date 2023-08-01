@@ -1,24 +1,23 @@
- R←Test_File_005(stopFlag batchFlag);⎕TRAP;parms;filename;html;report;folder
-⍝ Convert a file that luves on its own in an otherwise empty folder.
+ R←Test_File_005(stopFlag batchFlag);⎕TRAP;parms;filename;html;report;tempFolder
+⍝ Convert a file that lives on its own in an otherwise empty tempFolder.
 ⍝ R gets one of: 0=Okay, 1=test case failed, ¯1=test case was not executed due to the "batchFlag"
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
  R←T._Failed
 
- folder←''FilesAndDirs.GetTempFilename2''
- FilesAndDirs.DeleteFile folder
- FilesAndDirs.RmDir folder
- 'Create!'FilesAndDirs.CheckPath folder
-
- filename←##.CiderConfig.HOME,'/About_PresentAPL.md'
- (folder,'\')⎕NCOPY filename
+ tempFolder←''FilesAndDirs.GetTempSubDir⊃⎕SI
+ filename←##.CiderConfig.HOME,'\Assets\Presentations/About_PresentAPL.md'
+ (tempFolder,'\')⎕NCOPY filename
  parms←##.PresentAPL.CreateParms
- parms.inputFilename←filename
- parms.cssURL←##.CiderConfig.HOME,'/'
+ parms.inputFilename←tempFolder,'/',⊃,/1↓⎕NPARTS filename
+ parms.cssURL←##.CiderConfig.HOME,'/Assets/CSS/'
  report←##.PresentAPL.MakePresentationFromFile parms
 
- →T.PassesIf 0∊⍴report
- →T.PassesIf FilesAndDirs.Exists(¯2↓filename),'html'
- html←⊃⎕NGET(¯2↓filename),'html'
- →T.PassesIf 1=+/'<h1>About PresentAPL</h1>'⍷html
+ →T.GoToTidyUp 0≠≢report
+ →T.GoToTidyUp~FilesAndDirs.Exists parms.outputFilename
+ html←⊃⎕NGET parms.outputFilename
+ →T.GoToTidyUp 1≠+/'<h1>About PresentAPL</h1>'⍷html
 
  R←T._OK
+
+∆TidyUp:
+ {}FilesAndDirs.RmDirByForce tempFolder

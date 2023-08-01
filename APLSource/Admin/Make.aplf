@@ -1,0 +1,17 @@
+ {r}←Make flag;M;A;name;F;C;cfg;targetPath;parms;rc;zipFilename;version
+ r←''
+ :If flag
+     M←⎕SE.MakeHelpers
+     C←##.CiderConfig
+     name←'PresentAPL'
+     A←##.APLTreeUtils2
+     F←##.FilesAndDirs
+     targetPath←C.HOME,'/Dist'
+    ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
+     M.RecreateFolder targetPath
+     parms←⎕SE.Tatin.CreateBuildParms C.HOME
+     parms.targetPath←targetPath
+     parms.version←{⍵↑⍨¯1+⌊/⍵⍳'-+'}2⊃##.PresentAPL.Version
+     zipFilename←⎕SE.Tatin.BuildPackage parms
+     ⎕←'*** Successfully created: ',zipFilename
+ :EndIf

@@ -1,0 +1,9 @@
+ {r}←targetFolder CreateAndCopyPresentation filename;parms
+ r←⍬
+ parms←##.PresentAPL.CreateParms
+ parms.inputFilename←filename,'.md'
+ parms.css←'presentapl_blue.css'
+ parms.cssURL←'./'
+ ##.PresentAPL.MakePresentationFromFile parms
+ M.U.Assert ##.FilesAndDirs.Exists filename,'.html'
+⍝Done

@@ -1,0 +1,4 @@
+ {r}←CreateAndCopyPresentations targetFolder
+ r←⍬
+ targetFolder∘CreateAndCopyPresentation¨'About_PresentAPL' 'Samples'
+ ⍝Done

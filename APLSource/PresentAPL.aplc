@@ -1,12 +1,18 @@
 :Class PresentAPL
 ⍝ Creates a stand-alone HTML file that acts as a presentation in every modern browser.\\
 ⍝ ## Work flow
-⍝ 1. Create a parameter space:\\
-⍝    `parms←#.PresentAPL.CreateParms`
-⍝ 2. Specify the input file:\\
-⍝    `parms.inputFilename←'foo.md'`
-⍝ 3. Convert the Markdown file and create the HTML file:\\
-⍝    `#.PresentAPL.MakePresentation parms'\\
+⍝ ### Simple approach
+⍝ ```
+⍝ #.PresentAPL.MakePresentation '/path/2/markdown.md'
+⍝ ```
+⍝ ### More complex approach
+⍝ In case you are unhappy with the defaults you must create a parameter space, amend what
+⍝ needs amending and then call `MakePresentation` and pass the parameter space as an argument.\\
+⍝ ```
+⍝ parms←#.PresentAPL.CreateParms
+⍝ parms.inputFilename←'foo.md
+⍝ #.PresentAPL.MakePresentation parms
+⍝ ```
 ⍝ `parms.outputFilename` tells you the name of the output file if not set by yourself.
 ⍝ It defaults to the name and location of the input file with a different extension:
 ⍝ "html" rather than "md".\\
@@ -20,96 +26,46 @@
 ⍝ The JavaScript is much less likely to need modification. It is therefore not kept in a file.
 ⍝ See `GetJavascript`.\\
 ⍝ ## Traps
-⍝ Note that the level-1 header must not contain a `<` character. If it would the HTML would
-⍝ not render at all.\\
+⍝ Note that the level-1 header must not contain a `<` character. If it does anyway it is removed.\\
 ⍝ License: <http://creativecommons.org/licenses/LGPL/2.1/>\\
-⍝ Author Kai Jaeger <https://kai-jaeger.de>\\
+⍝ Author: Kai Jaeger\\
 ⍝ Homepage: <https://github.com/aplteam/PresentAPL>
 
     ⎕IO←1 ⋄ ⎕ML←1
 
     ∇ r←Version
       :Access Public Shared
-      r←'PresentAPL' '4.0.0+73' '2022-10-24'
+      r←'PresentAPL' '3.0.0+74' '2022-07-31'
     ∇
 
     ∇ History
-      :Access Public Shared
-      ⍝ * 4.0.0
-      ⍝   * Does not come as an EXE anymore: just a workspace that needs loading
-      ⍝   * Bugs fixed that prevented slides to be written to disk
+      :Access Public Shared    
       ⍝ * 3.0.0
-      ⍝   * Does not :Include APLTreeUtils any more but relies on APLTreeUtils2
-      ⍝   * Managed by Cider rather than acre
-      ⍝ * 2.6.0
-      ⍝   * `QLX` function added to script
+      ⍝   * Does not come as an EXE anymore
+      ⍝   * Is a Tatin package now
+      ⍝   * Bugs fixed that prevented slides to be written to disk
       ⍝\\
       ⍝ For information regarding older versions see <https://github.com/aplteam/PresentAPL/releases>
     ∇
 
-    ∇ Qlx;args;ff;files;file;report;msg;problems;⎕TRAP;parms;Ini;home
+    ∇ report←MakePresentationFromFile y;parms;md;pres;main;ns;title;html
+    ⍝ Create a presentation from `y` which must be one of:
+    ⍝ * Name of a markdown file that defines a presentation
+    ⍝ * A parameter space, typically created by calling `PresentAPL.CreateParms`\\
+    ⍝ Specify just a filename means you are okay with defaults.
       :Access Public Shared
-      {}AllowRide_⍣0⊣4599 1
-      #.⎕SHADOW'Errorparms'
-      #.ErrorParms←#.HandleError.CreateParms
-      #.ErrorParms.customFns←(⍕⎕THIS),'.TellProblem'
-      ⎕TRAP←#.HandleError.SetTrap'#.ErrorParms'
-      ##.FilesAndDirs.PolishCurrentDir
-      args←2 ⎕NQ'#' 'GetCommandLineArgs'
-      home←1⊃⎕NPARTS 1⊃args
-      files←1↓args
-      files←('.md'∘≡¨⎕C ¯3↑¨files)/files
-      :If 0∊⍴files
-          'ff'⎕WC'MsgBox'('Style' 'Error')('Caption' 'PresentAPL')('Btns' 'OK')('Text' 'No Markdown file specified')
-          ⎕DQ'ff'
-          OFF 1
+      :If 9=⎕NC'y'
+          parms←y
       :Else
-          report←''
-          :If ##.FilesAndDirs.Exists home,'\PresentAPL.ini'
-              Ini←⎕NEW ##.IniFiles(,⊂home,'\PresentAPL.ini')
-          :ElseIf ##.FilesAndDirs.Exists home,'\PresentAPL.ini'
-              Ini←⎕NEW ##.IniFiles home,'\PresentAPL.ini'
-          :Else
-              Ini←⍬
-          :EndIf
-          :For file :In files
-              :If Ini≡⍬
-                  parms←#.PresentAPL.CreateParms
-                  parms.inputFilename←file
-                  parms.outputFilename←(¯3↓file),'.html'
-                  :If ##.APLTreeUtils2.IsDevelopment
-                      parms.cssURL←⊃⎕NPARTS ##.FilesAndDirs.PWD,'\'
-                  :Else
-                      parms.cssURL←⊃##.APLTreeUtils2.SplitPath⊃args
-                  :EndIf
-              :Else
-                  parms←'flat'Ini.Convert ⎕NS''
-                  parms.inputFilename←file
-                  parms.homeFolder←¯1
-                  parms.base←''
-                  parms.bookmarkMayStartWithDigit←1
-                  parms←AddDefaultParms parms
-              :EndIf
-              :If 0≠≢problems←#.PresentAPL.MakePresentationFromFile parms
-                  report,←(⊂'*** Problems:'),'  '∘,¨problems
-              :EndIf
-              report,←⊂file
-          :EndFor
-          msg←(⊂(⍕⍴report),' presentation',((1<⍴report)/'s'),' created: '),'  '∘,¨(¯2↓¨report),¨⊂'html'
-          'ff'⎕WC'MsgBox'('Style' 'Info')('Btns' 'OK')('Text'msg)
-          ⎕DQ'ff'
-          OFF 0
+          parms←CreateParms
+          parms.inputFilename←y
       :EndIf
-    ∇
-
-    ∇ report←MakePresentationFromFile parms;md;pres;main;ns;title;html
-      :Access Public Shared
       parms.bookmarkLink←0
       parms.linkToCSS←~parms.standalone
       parms.screenCSS←parms.css
       parms.printCSS←''
       md←⊃##.FilesAndDirs.NGET parms.inputFilename 1
-      :If 0∊⍴parms.outputFilename
+      :If 0=≢parms.outputFilename
           parms.outputFilename←(⊃'.'##.APLTreeUtils2.SplitPath parms.inputFilename),'html'
       :ElseIf (¯1↑parms.outputFilename)∊'/\'
           parms.outputFilename,←2⊃##.APLTreeUtils2.SplitPath(⊃'.'##.APLTreeUtils2.SplitPath parms.inputFilename),'html'
@@ -132,6 +88,7 @@
     ∇
 
     ∇ (html ns)←MakePresentationFromMarkdown(markdown parms);pres;main;title;html
+      ⍝ Create a presentation from `markdown` and the parameter space `parms`.
       :Access Public Shared
       parms.bookmarkLink←0
       parms.linkToCSS←~parms.standalone
@@ -152,6 +109,7 @@
     ∇
 
     ∇ r←CreateParms
+    ⍝ Creates a parameter space populated with defaults valuas for the required variables.
       :Access Public Shared
       r←##.MarkAPL.CreateParms
       r.⎕EX¨'linkToCSS' 'screenCSS' 'printCSS'
@@ -173,10 +131,10 @@
 
     ∇ r←GetCodeBlocks html;hits
       :Access Public Shared
-    ⍝ Returns the code found in <pre><code> blocks. Every block is an item. An item might have
+    ⍝ Returns the code found in `<pre><code>` blocks. Every block is an item. An item might have
     ⍝ several sub items, depending on the number of lines of the code block in question.
       html←1↓⊃,/(⎕UCS 13),¨html
-      :If ~0∊⍴hits←'<pre\b[^>]*><code\b[^>]*>'⎕S 0(⍠'Mode' 'D')⊣html
+      :If 0≠≢hits←'<pre\b[^>]*><code\b[^>]*>'⎕S 0(⍠'Mode' 'D')⊣html
           r←((⍳⍴html)∊hits)⊂html
           r←{'<pre\b[^>]*><code\b[^>]*>'⎕R''⊣⍵}¨r
           r←1↓¨({'</code></pre>'⎕S 0⍠('Mode' 'D')⊣⍵}¨r)↑¨r
@@ -199,34 +157,17 @@
       :EndIf
     ∇
 
-    ∇ {r}←TellProblem parms;∆
-      :Access Public Shared
-      r←⍬
-      ∆←''
-      ∆,←⊂'Caption' 'PresentAPL Problem'
-      ∆,←⊂'Style' 'Error'
-      ∆,←⊂'Btns' 'OK'
-      ∆,←⊂'Text'(↑parms.LastError)
-      'ff'⎕WC(⊂'MsgBox'),∆
-      ⎕DQ'ff'
-      :If ##.APLTreeUtils2.IsDevelopment
-          →
-      :Else
-          ⎕OFF
-      :EndIf
-    ∇
-
 ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝ Private stuff
 
     ∇ html←mainNs MakeSlides presentation;slides;i;slide;ns
       html←''
       slides←1↓'∆'pres.⎕NL 2
-      :For i :In ⍳⊃⍴slides
+      :For i :In ⍳≢slides
           slide←presentation.⍎'∆slide_',¯2↑'0',⍕i
           (⊃slide)←1↓⊃slide
           ns←##.MarkAPL.Init parms slide
           ns←##.MarkAPL.Process ns
-          :If ~0∊⍴ns.report
+          :If 0≠≢ns.report
               :If mainNs.parms.printReportToSession
                   ⎕←'*** Problem in slide ;',⍕i
                   ⎕←⍪' ',¨ns.report
@@ -275,7 +216,7 @@
       html,←InjectCSS parms
       html,←InjectJavaScript parms
       html,←⊂''
-      :If 0∊⍴title
+      :If 0=≢title
           html,←⊂'<title>MarkAPL</title>'
       :Else
           html,←⊂'<title>',title,'</title>'
@@ -315,13 +256,13 @@
       :EndFor
     ∇
 
-    ∇ {r}←InjectCSS parms;fn;list;file;css
+    ∇ {r}←InjectCSS parms;fn;list;file;css;filename
       :If parms.standalone
-          :Trap 22
-              css←⊃##.FilesAndDirs.NGET({0∊⍴⍵:⍵ ⋄ ⍵,'\'}parms.cssURL),parms.css
-          :Else
-              css←⊃##.FilesAndDirs.NGET({0∊⍴⍵:⍵ ⋄ ⍵,'\'}parms.cssURL),'\Files\',parms.css
-          :EndTrap
+          filename←parms.cssURL{0=≢⍺:⍵ ⋄ ⍺,'\',⍵}parms.css
+          :If ~##.FilesAndDirs.IsFile filename
+              filename←##.TatinVars.GetFullPath2AssetsFolder,'CSS/',parms.css
+          :EndIf
+          css←⊃##.FilesAndDirs.NGET filename
           css←##.MarkAPL.CompressCSS css
           r←'<style>'css'</style>'
       :Else
@@ -362,7 +303,7 @@
           r,←⊂' Author:  Stefan Goessner/2005-2006'
           r,←⊂' Web:     http://goessner.net/ '
           r,←⊂' '
-          r,←⊂' Enhanced to "PresentAPL" by Kai Jaeger ⋄ APL Team Ltd 2016'
+          r,←⊂' Enhanced to "PresentAPL" by Kai Jaeger'
           r,←⊂'*/'
           r,←⊂'var Slideous = {'
           r,←⊂'   version: 1.0,'
@@ -676,57 +617,6 @@
           r
       }
 
-    ∇ {r}←AllowRide n;rc;port;wait
-      :If 0=IsConnectedToRide ⍬
-          :If n.∆INI.Exist'Ride' 'Allow'
-          :AndIf n.∆INI.Exist'Ride' 'Port'
-          :AndIf ↑n.∆INI.Get'Ride' 'Allow'
-              port←↑n.∆INI.Get'Ride' 'Port'
-              wait←{0=n.∆INI.Exist'Ride' 'Wait':0 ⋄ ↑n.∆INI.Get'Ride' 'Wait'}⍬
-              AllowRide_ port wait
-          :EndIf
-      :EndIf
-    ∇
-
-    ∇ {r}←AllowRide_(port waitFlag);rc
-      r←⍬
-      :If 0=IsConnectedToRide ⍬
-          :If 0=≢##.FilesAndDirs.Dir'conga??_32.dll'
-              OFF 106 ⍝ means:                    "Conga DLL is missing"
-          :Else
-              {}3502⌶0
-              rc←3502⌶'Serve::',⍕port
-              :If rc≠0
-                  11 ⎕SIGNAL⍨'Ride error when resetting connection string to "',('Serve::',⍕port)'"; RC=',⍕rc
-              :EndIf
-              rc←3502⌶1
-              :If ~rc∊0 ¯1
-                  :If 64≠rc
-                      11 ⎕SIGNAL'Another application seems to use port ',⍕port
-                  :Else
-                      11 ⎕SIGNAL⍨'Ride error when trying to activate Ride; RC=',⍕rc
-                  :EndIf
-              :EndIf
-              {}{_←⎕DL ⍵ ⋄ ∇ ⍵}⍣(⊃waitFlag)⊣1     ⍝ Endless loop that allows us to have a RIDE and wait for an interrupt
-          :EndIf
-      :EndIf
-      :If ##.APLTreeUtils2.IsDevelopment
-          →
-      :Else
-          ⎕OFF rc
-      :EndIf
-    ∇
-
-    IsConnectedToRide←{3501⌶⊣⍬}
-
-    ∇ OFF rc
-      :If ##.APLTreeUtils2.IsDevelopment
-          →
-      :Else
-          ⎕OFF rc
-      :EndIf
-    ∇
-
     ∇ parms←AddDefaultParms parms;defaults;bool;list;buff
       defaults←CreateParms
       list←##.APLTreeUtils2.DMB↓defaults.⎕NL 2
@@ -735,5 +625,7 @@
           parms.{⍎(1⊃⍵),'←2⊃⍵'}¨buff
       :EndIf
     ∇
+
+    Assert←{⍺←'' ⋄ (,1)≡,⍵:r←1 ⋄ ⎕ML←1 ⋄ ⍺ ⎕SIGNAL 1↓(⊃∊⍵),11}
 
 :EndClass

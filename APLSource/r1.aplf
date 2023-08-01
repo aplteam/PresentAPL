@@ -1,11 +1,12 @@
  r1;parms;report
  parms←PresentAPL.CreateParms
- parms.inputFilename←CiderConfig.HOME,'/About_PresentAPL.md'
+⍝ parms.inputFilename←CiderConfig.HOME,'/About_PresentAPL.md'
+parms.inputFilename←'C:\T\Presentations\Elsinore 2023\APLTree_2023.md'
  parms.cssURL←CiderConfig.HOME
  :If 0=≢report←PresentAPL.MakePresentationFromFile parms
      ⎕←']Open ',parms.outputFilename
  :Else
      ⎕←'*** Report:'
-     ⎕←⍪r
+     ⎕←⍪report
  :EndIf
 ⍝Done

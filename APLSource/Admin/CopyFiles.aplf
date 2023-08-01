@@ -1,0 +1,32 @@
+{r}←CopyFiles(destination pathToAPLTreeSource);rc;more
+ r←⍬
+ (rc more)←'PresentAPL.ini.RemoveMe'F.CopyTo destination
+ more M.U.Assert 0=rc
+ (rc more)←'MarkdownFile.reg'F.CopyTo destination
+ more M.U.Assert 0=rc
+ Copy_CSS destination
+ (rc more)←(pathToAPLTreeSource,'MarkAPL.dyalog')F.CopyTo destination
+ more M.U.Assert 0=rc
+ (rc more)←(pathToAPLTreeSource,'MarkAPL\files\MarkAPL.html')F.CopyTo destination
+ more M.U.Assert 0=rc
+ (rc more)←(pathToAPLTreeSource,'MarkAPL\files\MarkAPL_CheatSheet.html')F.CopyTo destination
+ more M.U.Assert 0=rc
+ (rc more)←(pathToAPLTreeSource,'APLTreeUtils.dyalog')F.CopyTo destination
+ more M.U.Assert 0=rc
+ (rc more)←'BlueDuck.jpg'F.CopyTo destination
+ more M.U.Assert 0=rc
+ (rc more)←'PresentAPL.dws'F.CopyTo destination
+ more M.U.Assert 0=rc
+ (rc more)←'About_PresentAPL.md'F.CopyTo destination
+ more M.U.Assert 0=rc
+ (rc more)←'About_PresentAPL.html'F.CopyTo destination
+ more M.U.Assert 0=rc
+ (rc more)←'Samples.md'F.CopyTo destination
+ more M.U.Assert 0=rc
+ (rc more)←'Samples.html'F.CopyTo destination
+ more M.U.Assert 0=rc
+ (rc more)←'README.md'F.CopyTo destination
+ more M.U.Assert 0=rc
+ (rc more)←'LICENSE'F.CopyTo destination
+ more M.U.Assert 0=rc
+⍝Done

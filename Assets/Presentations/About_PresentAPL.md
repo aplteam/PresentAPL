@@ -1,40 +1,37 @@
+[parm]:presentation = 1
+
+
+
 # About PresentAPL
 
 [Data]:author="Kai Jaeger"
-[Data]:company="APL Team Ltd"
-[Data]:date="2016-03-10"
+[Data]:company=""
+[Data]:date="2023-07-2310"
 
 ## About PresentAPL
 
-### \{$author\}, \{$company\}
+### \{$author\} \{$company\}
 ### \{$date\}
 
 
-## PresentAPL -1-
+## PresentAPL
 
-* **PresentAPL** is a Dyalog class.
-* It takes a Markdown file as input
-* It uses MarkAPL to parse the Markdown.
-* It creates a slide show from the Markdown. 
-* It uses HTML5, CSS and a bit of JavaScript to achieve that.
-* All it needs is a modern browser.  
+* **PresentAPL** is a Dyalog class
+* It takes Markdown as input
+* It uses MarkAPL to parse the Markdown
+* It creates a slide show from the Markdown.
+* It uses HTML5, CSS and a bit of JavaScript to achieve that
+* All it needs is a modern browser
 
+Use all MarkAPL features: paragraphs, lists, code blocks, tables, images, blockquotes, horizontal rulers, in-line markup (**bold**, _italic_, `APL code`, ~~deleted~~...) and more.
 
-## PresentAPL -2-
-
-* Creates a slide show (or presentation) from a Markdown file.
-* Uses the MarkAPL class (parser) for the conversion.
-* See the Markdown file this presentation was created from as a template.
-* There is a file `Example.md` available discussing all formatting options.
-* There is an EXE available and a class script.
-* In order to use the EXE you don't even need Dyalog APL.
-
-One can use all the stuff supported by MarkAPL: paragraphs, lists, code blocks, tables, images, blockquotes, horizontal rulers, in-line markup (**bold**, _italic_, `APL code`, ~~deleted~~...) and more.
 
 
 <div class="handout">
 
+
 This is a paragraph **with** in-line mark-up that shows in print view only. The blank lines above and underneath this paragraph are essential. Only then are the two `<div>`s recognized as two rather than one HTML block, and only then is anything between the two `<div>`s interpreted as Markdown. 
+
 
 </div>
 
@@ -56,7 +53,7 @@ This is a paragraph **with** in-line mark-up that shows in print view only. The 
 
 ## Workflow
 
-1. Create a presentation by editing a Markdown file. `AboutPresentAPL.md` is an excellent starting point
+1. Create a presentation by editing a Markdown file. `AboutPresentAPL.md` is a starting point
 2. Drag the `*.md` file onto `PresentAPL.exe`
 3. View the resulting HTML file - your presentation.
 
@@ -70,10 +67,10 @@ The following keys are used to control a PresentAPL presentation:{.nonincrementa
 | <PgDn> | Show the next slide |
 | <PgUp> | Show previous slide | 
 | <Home>| First slide |
-| <End>	  | Last slide |
+| <End>      | Last slide |
 | Cursor-right | Show next item |
 | Cursor-left | Hide current item | 
-| M	         | Toggle mouse navigation (default=off) |
+| M             | Toggle mouse navigation (default=off) |
 | S | Toggle status bar visibility |
 | P  | For "Print": shows all slides at once including any `<div>`s of the class "handout". 
 
@@ -87,6 +84,7 @@ The following keys are used to control a PresentAPL presentation:{.nonincrementa
   
 ## Misc
 
-I like to know when the last topic on a slide has been revealed.
+I like to know when the last topic on a slide has been revealed. 
 
 The bottom-left corner shows an arrow as long as not all items are revealed.
+

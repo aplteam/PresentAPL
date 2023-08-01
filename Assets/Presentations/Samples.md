@@ -281,7 +281,7 @@ Note that in the first expression the right argument is 100 rather than 20. Ther
 
 Here we would see the result of the check function, if any:
 
-⍎⍎#.#.PresentAPL_Utils.CheckSlide⍎⍎
+⍎⍎#.PresentAPL_Utils.CheckSlide⍎⍎
 
 
 ## Sophisticated stuff
@@ -289,3 +289,4 @@ Here we would see the result of the check function, if any:
 PresentAPL offeres more. Essentially it offers almost anything the underlying Markdown parser, MarkAPL, has to offer.
 
 For more information see the file MarkAPL.html which is a detailed reference of MarkAPL.
+
