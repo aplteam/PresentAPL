@@ -2,13 +2,10 @@
 <html>
 <head>
 <meta charset="utf-8">
-<meta name="title" content="Test&gt;" />
-<meta name="author" content="AuthorName" />
-<meta name="company" content="CompanyName" />
-<meta name="date" content="PresentationDate" />
-<meta name="title" content="PresentationTitle" />
-<meta name="autoincrement" content="true" />
-<meta name="mousesensitive" content="false" />
+<meta name="title" content="About PresentAPL" />
+<meta name="author" content="Kai Jaeger" />
+<meta name="company" content="" />
+<meta name="date" content="2023-07-2310" />
 <style>
 @media screen, projection{body{background-color:#1E5799;padding:0;margin:0;color:White;border-color:#678;font-size:100%;font-family:Verdana, open-sans;font-weight:300;line-height:1.6;}code{display:inline;}pre{background:silver;color:Black;border:1px dotted black;margin:0px;padding:5px;box-shadow:5px 5px 5px Black;}pre code{color:inherit;font-weight:800;border:1px silver;padding:2px;background-color:silver;}blockquote{background:#f9f9f9;margin:1.5em 10px;padding:0.5em 10px;quotes:"\201C" "\201C";color:gray;}blockquote:before{color:#ccc;content:open-quote;font-size:4em;line-height:0.1em;margin-right:0em;vertical-align:-0.4em;}blockquote p{display:inline;}code{background-color:silver;color:Black;font-size:90%;font-weight:800;padding:1px 5px;margin:0;font-family:"APLFONT";}td > code{background-color:inherit;}#statusbar{display:none;position:absolute;z-index:10;top:auto;bottom:0;left:0;right:0;height:3em;background-color:inherit;color:White;font-size:75%;padding:0.5em 0.5em 0.0em 0.5em;border-top:solid 2px Silver;font-weight:300;}#sbtitle{font-size:75%;}#statusbar button, #tocbox{cursor:pointer;color:Black;background-color:Silver;margin:1px;}#statusbar button{display:inline-block;box-shadow:0 0 0 1px rgba(0,0,0,.15) inset,0 0 6px rgba(0,0,0,.2) inset;padding:0.8em;color:rgba(0,0,0,.8);border:0 rgba(0,0,0,0);background-color:#E6E6E6;border-radius:2px;height:37px;}#statusbar button:hover{background-color:#cecece;}#tocbox{width:22em;height:37px;font-size:10px;background-color:White;color:black;padding:0em;}#eos{visibility:hidden;color:White;background-color:inherit;border:inset 1px black;font-size:120%;}div.slide{display:block;margin:0 0 2em 0;padding:0 15px;}div.slide h1{background:inherit;color:White;padding:0;margin:0 0 20px 0;font-size:160%;border-bottom:solid 2px White;font-family:"Open Sans", Verdana;}div.handout{display:block;padding-left:8px;border-left:6px solid silver;}body>#statusbar{position:fixed;}* html body{overflow:hidden;}* html div.slide{height:100%;padding-bottom:2em;overflow:auto;}body{padding:20px;}li{padding:1px 0;}hr{border:0;height:2px;background:White;}img{margin-top:10px;margin-bottom:10px;}h1, h2, h3, h4, h5, h6{color:White;font-family:Verdana, "Open Sans";font-weight:800;}div.slides:first-child > h1{font-size:2.5em;}div.slides:first-child > h3{font-size:2.0em;}table{border-top:solid 2px Black;border-left:solid 2px Black;border-right:solid 3px Gray;border-bottom:solid 3px Gray;border-collapse:collapse;empty-cells:show;font-size:100%;margin-top:20px;margin-bottom:10px;background-color:#fef9f2;color:Black;}table td, table th{border-left:solid 1px Gray;border-right:solid 1px Gray;padding:0.25em 0.5em 0.25em 0.5em;text-align:left;}tbody tr:nth-child(odd){background-color:#fcefde;}table td.lft{text-align:left;}table td.rht{text-align:right;}table td.ctr{text-align:center;}dl dt{font-weight:bold;}span.lno{color:gray;background-color:inherit;border-right:solid 1px gray;}span.cmt{font-style:italic;color:green;background-color:inherit;}span.str{font-style:italic;color:#8B0000;background-color:inherit;}span.kwd{color:blue;background-color:inherit;}span.op{color:purple;background-color:inherit;}span.xtag{color:navy;background-color:inherit;}span.xnam{color:#4169E1;background-color:inherit;}span.xval{font-style:italic;color:#8B0000;background-color:inherit;}ol, ul{padding-top:5px;padding-bottom:5px;}li > p{margin:0;padding-top:15px;padding-bottom:5px;}}@media print{body{color:Black;font-size:1em;font-family:Verdana, sans-serif;margin:2em;}p, code, ul, ol, tr{font-size:80%;}h1{font-size:120%;}h2{font-size:110%;}h3{font-size:100%;}h4{font-size:90%;}h5{font-size:80%;}h6{font-size:80%;}#statusbar{display:none;}div.slide{page-break-after:always;}div.handout{display:block;border-left:2px solid silver;padding-left:4px;}li{padding:5pt 0;}ol, ul{padding-top:5pt;padding-bottom:5pt;}li > p{margin:0;padding-top:5pt;padding-bottom:5pt;}}@font-face{font-family:APLFONT;src:local("APL385 Unicode"), url("http://misc.aplteam.com/apl385.woff"), url("http://misc.aplteam.com/apl385.ttf");}a{color:#b0cef0;}
 </style>
@@ -335,7 +332,7 @@ window.onload = Slideous.init;
 
 </script>
 
-<title>Test&gt;</title>
+<title>About PresentAPL</title>
 <!-- statusbar -->
 <div id="statusbar">
 <span style="float:right;">
@@ -354,8 +351,131 @@ window.onload = Slideous.init;
 <div class="slides">
 <div class="slide">
 <div class="h_tag">
-<h1>First slide</h1>
+<h1>About PresentAPL</h1>
 </div>
-<p>A para.</p>
+<div class="h_tag">
+<h3>{$author} {$company}</h3>
+</div>
+<div class="h_tag">
+<h3>{$date}</h3>
+</div>
+</div>
+<div class="slide">
+<div class="h_tag">
+<h1>PresentAPL</h1>
+</div>
+<ul>
+<li><strong>PresentAPL</strong> is a Dyalog class</li>
+<li>It takes Markdown as input</li>
+<li>It uses MarkAPL to parse the Markdown</li>
+<li>It creates a slide show from the Markdown.</li>
+<li>It uses HTML5, CSS and a bit of JavaScript to achieve that</li>
+<li>All it needs is a modern browser</li>
+</ul>
+<p>Use all MarkAPL features: paragraphs, lists, code blocks, tables, images, blockquotes, horizontal rulers, in-line markup (<strong>bold</strong>, <em>italic</em>, <code>APL code</code>, <del>deleted</del>…) and more.</p>
+<div class="handout">
+
+<p>This is a paragraph <strong>with</strong> in-line mark-up that shows in print view only. The blank lines above and underneath this paragraph are essential. Only then are the two <code>&lt;div&gt;</code>s recognized as two rather than one HTML block, and only then is anything between the two <code>&lt;div&gt;</code>s interpreted as Markdown.</p>
+</div>
+
+</div>
+<div class="slide">
+<div class="h_tag">
+<h1>Advantages</h1>
+</div>
+<ul>
+<li>Single stand-alone HTML file.</li>
+<li>It's just HTML5, CSS and a bit of JavaScript.</li>
+<li>Open Source.</li>
+<li>Simple and easy to use.</li>
+<li>Allows testing code expressions used in a presentation.</li>
+</ul>
+</div>
+<div class="slide">
+<div class="h_tag">
+<h1>Disadvantages</h1>
+</div>
+<ul>
+<li>No animations other than animated GIFs.</li>
+</ul>
+</div>
+<div class="slide">
+<div class="h_tag">
+<h1>Workflow</h1>
+</div>
+<ol start="1">
+<li>Create a presentation by editing a Markdown file. <code>AboutPresentAPL.md</code> is a starting point</li>
+<li>Drag the <code>*.md</code> file onto <code>PresentAPL.exe</code></li>
+<li>View the resulting HTML file - your presentation.</li>
+</ol>
+</div>
+<div class="slide">
+<div class="h_tag">
+<h1>Keyboard shortcuts</h1>
+</div>
+<p class="nonincremental">The following keys are used to control a PresentAPL presentation:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;"> Key        </th>
+<th style="text-align: left;"> Comment </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&lt;PgDn&gt;</td>
+<td>Show the next slide</td>
+</tr>
+<tr>
+<td>&lt;PgUp&gt;</td>
+<td>Show previous slide</td>
+</tr>
+<tr>
+<td>&lt;Home&gt;</td>
+<td>First slide</td>
+</tr>
+<tr>
+<td>&lt;End&gt;</td>
+<td>Last slide</td>
+</tr>
+<tr>
+<td>Cursor-right</td>
+<td>Show next item</td>
+</tr>
+<tr>
+<td>Cursor-left</td>
+<td>Hide current item</td>
+</tr>
+<tr>
+<td>M</td>
+<td>Toggle mouse navigation (default=off)</td>
+</tr>
+<tr>
+<td>S</td>
+<td>Toggle status bar visibility</td>
+</tr>
+<tr>
+<td>P</td>
+<td>For “Print”: shows all slides at once including any <code>&lt;div&gt;</code>s of the class “handout”.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="slide">
+<div class="h_tag">
+<h1>Incremental</h1>
+</div>
+<ul>
+<li>All elements are always incremental.
+<p>That means that by pressing &lt;CursorRight&gt; just one element at a time is revealed.</p></li>
+<li>If you don't want this just press &lt;PgDn&gt; - this shows a whole slide at once.</li>
+</ul>
+</div>
+<div class="slide">
+<div class="h_tag">
+<h1>Misc</h1>
+</div>
+<p>I like to know when the last topic on a slide has been revealed.</p>
+<p>The bottom-left corner shows an arrow as long as not all items are revealed.</p>
 </div>
 </div>

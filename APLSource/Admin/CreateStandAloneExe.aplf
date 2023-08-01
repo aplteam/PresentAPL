@@ -1,0 +1,11 @@
+ {r}←CreateStandAloneExe(M name targetPath);wsParms
+ wsParms←M.CreateStandAloneExeParms('./',targetPath,'/',name,'.exe')name
+⍝wsParms.icon←
+ wsParms.FileDescription←'Stand-alone HTML+CSS+JavaScript Presentations'
+ wsParms.ProductVersion←(1⊃⍎'#.',name,'.Version')
+ wsParms.CompanyName←''
+ wsParms.ProductName←name
+ wsParms.FileVersion←(1⊃⍎'#.',name,'.Version')
+ wsParms.LegalCopyright←'See https://github.com/aplteam/',name
+ M.MakeStandAloneRunTimeExe wsParms
+⍝Done

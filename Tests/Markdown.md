@@ -1,5 +1,4 @@
 [parm]: css    = 'PresentAPL_blue.css'
-[parm]: cssURL = '.\'
 
 # Markdown & MarkAPL
 
