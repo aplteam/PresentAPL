@@ -35,12 +35,14 @@
 
     ∇ r←Version;v
       :Access Public Shared
-      v←(⎕JSON⍠('Dialect' 'JSON5')⊣##.TatinVars.CONFIG).version
-      r←'PresentAPL'v'2024-01-11'
+      r←'PresentAPL' '3.3.0' '2024-08-12'
     ∇
 
     ∇ History
       :Access Public Shared
+      ⍝ * 3.3.0
+      ⍝   * `Version` contains now a hard-coded version number
+      ⍝   * Packages updated, in particular MarkAPL 13.0.0  
       ⍝ * 3.2.0
       ⍝   * Packages updated: MarkAPL (12.1.0) and FilesAndDirs (5.7.0)
       ⍝ * 3.1.0
