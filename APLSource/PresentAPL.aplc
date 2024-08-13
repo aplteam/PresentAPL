@@ -33,14 +33,16 @@
 
     ⎕IO←1 ⋄ ⎕ML←1
 
-    ∇ r←Version;v
+    ∇ r←Version
       :Access Public Shared
-      r←'PresentAPL' '3.3.0' '2024-08-12'
+      r←'PresentAPL' '3.3.1' '2024-08-13'
     ∇
 
     ∇ History
       :Access Public Shared
-      ⍝ * 3.3.0
+      ⍝ * 3.3.1 ⋄ 2024-08-13
+      ⍝   * Build-list was buggy (misspelled Markapl)
+      ⍝ * 3.3.0 ⋄ 2024-08-12
       ⍝   * `Version` contains now a hard-coded version number
       ⍝   * Packages updated, in particular MarkAPL 13.0.0  
       ⍝ * 3.2.0

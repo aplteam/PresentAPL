@@ -1,9 +1,7 @@
 {
   packageID: [
     "aplteam-MarkAPL-13.0.0",
-    "aplteam-Markapl-13.0.0",
-    "aplteam-MarkAPL-12.1.2",
-    "aplteam-FilesAndDirs-5.8.0",
+    "aplteam-FilesAndDirs-5.8.1",
     "aplteam-APLTreeUtils2-1.4.0",
     "aplteam-OS-3.1.1",
     "aplteam-CommTools-1.8.1",
@@ -12,14 +10,10 @@
     1,
     1,
     1,
-    1,
-    1,
     0,
     0,
   ],
   url: [
-    "https://tatin.dev/",
-    "C:/T/Projects/APL-cation/PresentAPL/packages/aplteam-Markapl-13.0.0",
     "https://tatin.dev/",
     "https://tatin.dev/",
     "https://tatin.dev/",
