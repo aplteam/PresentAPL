@@ -93,7 +93,7 @@ td > code {
     font-size: 75%;
 }
 #statusbar button, #tocbox {
-  cursor: pointer; 
+  cursor: pointer;
   color: Black;
   background-color: Silver;
   margin: 1px;
@@ -292,4 +292,4 @@ li > p {
     url("http://misc.aplteam.com/apl385.ttf");
 }
 
-a {color: #b0cef0; }
+a, a:visited {color: blue; }

@@ -268,3 +268,5 @@ li > p {
     url("http://misc.aplteam.com/apl385.woff"),
     url("http://misc.aplteam.com/apl385.ttf");
 }
+
+a, a:visited {color: blue; }

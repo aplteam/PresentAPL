@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Coverage</title>
+<meta charset="utf-8"/>
+<style>
+@media screen{
+    html {background-color: #FFFFF0;}
+body {
+    font-size: 16px;
+    font-family : Verdana, "Bitstream Vera Sans", "DejaVu Sans", Tahoma, Geneva, Arial, Sans-serif;
+    margin: 1em;
+}
+th, td {padding: 5px 10px;}
+th {text-align: left;}
+h1, h2, h3, h4, h5, h6 {color: #424242;}
+h1 {font-size: 22px;}
+h2 {font-size: 18px; margin-top: 2em; margin-bottom:0.3em;}
+tbody tr:nth-child(even) {background-color: #F0F0F0;}
+tbody tr:nth-child(odd) {background-color: #FAFAFA;}
+th {background-color: #E6E6E6;color: #424242;}
+table {border: silver 1px solid; font-size: 14px;font-family: APLFont, monospace;}
+code , code a {font-size: 14px; font-family: APLFont, monospace;}
+code.header {
+    font-size: 16px; 
+    font-family: APLFont, monospace; 
+    margin: 1.5em 0.5em 0 0.5em; 
+    padding:0;
+    display: block;
+}
+div.code-block {
+    border: 1px silver dashed;
+    background-color: #F2F2F2;
+    display: block;
+    margin: 0.5em 0.5em 0.5em 0.5em;
+    padding: 0.5em;
+}
+div.code-block.missing {
+    background-color: #fa605254;
+}
+div.code-block code {display: block; white-space: pre-wrap; margin:0; padding:0; word-wrap: break-word;}
+.emphasize { font-weight: 800;}
+ul li, ol li {margin: 0.7em 0.2em;}
+.float-right {float:right;}
+.no-underline {    text-decoration :none;}
+.top-links {font-size:20px; padding-left: 0.6em;}
+.align-right {text-align: right;}
+#footer hr {margin-top:1.5em;}
+#footer p {margin-top:5px; padding-top:0; font-size: 9px;}
+@font-face {
+        font-family: "APLFont";
+    src:
+        local("APL385 Unicode"),
+        url("https://misc.aplteam.com/apl385.ttf") format("truetype");
+}
+.info {border: 1px silver dashed; background-color: #F2F2F2;margin: 0.5em; padding: 0.5em;}
+}
+@media print{@page {size: portrait}
+@page {
+    margin: 1cm 1cm 1cm 1.75cm;
+    @bottom-right {
+        content: counter(page) " / " counter(pages);
+  }
+}
+body {
+    font: 12pt "Times New Roman", Times, serif;
+    line-height: 1.2;
+     /* CSS3 filter, at the moment Webkit only. Prefix it for future implementations */
+    -webkit-filter: grayscale(100%);
+    filter: grayscale(100%); /* future-proof */
+}
+h1 {font-size: 18pt;}
+h2 {font-size: 16pt; margin-top: 10pt; margin-bottom: 3pt;}
+th, td {padding: 2pt 3pt;}
+th {text-align: left;background-color: #DBDBDB;}
+tbody tr:nth-child(odd) {background-color: #EDEDED;}
+table {
+    color-adjust: exact !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    font-size: 8pt;
+    font-family: APLFont, monospace;
+}
+div.keep-together {break-inside: avoid; break-before:auto;}
+table {border: silver 1pt solid;}
+code , code a {font-size: 8pt; font-family: APLFont, monospace;}
+code.header {
+    font-size: 8pt;
+    font-family: APLFont, monospace;
+    margin: 7pt 3pt 0 10pt;
+    padding:0;
+    display: block;
+}
+div.code-block {
+    border: 1pt silver dashed;
+    background-color: #F2F2F2;
+    display: block;
+    margin: 4pt 4pt 4pt 4pt;
+    padding: 4pt;
+}
+div.code-block code {display: block; white-space: pre-wrap; margin:0; padding:0; word-wrap: break-word;}
+.emphasize { font-weight: 800;}
+a {text-decoration: none;color: black;}
+ul li, ol li {margin: 8pt 3pt;}
+.no-print {display:none;}
+.align-right {text-align: right;}
+#footer hr {margin-top:1.5em;}
+#footer p {margin-top:5pt; padding-top:0; font-size: 6pt;}
+@font-face {
+        font-family: "APLFont";
+    src:
+        local("APL385 Unicode"),
+        url("https://misc.aplteam.com/apl385.ttf") format("truetype");
+}
+.info {border: 1px silver dashed; background-color: #F2F2F2;margin: 8px; padding: 8px;}
+}
+</style>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/jq-3.6.0/dt-1.11.2/b-2.0.0/b-print-2.0.0/fh-3.1.9/r-2.2.9/datatables.min.css"/>
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/jq-3.6.0/dt-1.11.2/b-2.0.0/b-print-2.0.0/fh-3.1.9/r-2.2.9/datatables.min.js"></script>
+</head>
+<body>
+<h1 id="top">Coverage Report</h1>
+<p>Watched: 16 fns/opr within <code>#.PresentAPL.PresentAPL</code></p>
+<p>The test suite was executed once:</p>
+<table>
+<thead>
+<tr><th>Executed at</th><th>APLVersion</th><th>Memory (MB)</th></tr>
+</thead>
+<tbody>
+<tr><td>2025-08-24 13:00:52</td><td>Windows-64 ⋄ 18.2.52064.0 ⋄ W ⋄ Development ⋄ Unicode</td><td>113</td></tr>
+</tbody>
+</table>
+<p>Overall 85% of the testable code is covered.</p>
+<p>(Comment lines, empty lines, all <code>:End</code>* lines etc. are ignored)</p>
+<p>8 of the fns/opr are 100% covered.</p>
+<div id="partly-covered" class="keep-together">
+<table id="percent">
+<thead>
+<tr><th style="text-align:left;">Function/Operator</th><th style="text-align:left;">Lines not executed</th><th style="text-align:left;">Coverage</th><th style="text-align:right;">≢</th></tr>
+</thead>
+<tbody>
+<tr class="uncovered"><td><a href="#listing_1" title="Link to listing">#.PresentAPL.PresentAPL.Version</a></td><td>2</td><td>0</td><td>1</td></tr>
+<tr class="uncovered"><td><a href="#listing_2" title="Link to listing">#.PresentAPL.PresentAPL.ConvertData2Meta</a></td><td>1, 2, 3</td><td>0</td><td>3</td></tr>
+<tr class="uncovered"><td><a href="#listing_3" title="Link to listing">#.PresentAPL.PresentAPL.AddDefaultParms</a></td><td>5←≢1-5</td><td>0</td><td>5</td></tr>
+<tr><td><a href="#listing_4" title="Link to listing">#.PresentAPL.PresentAPL.InjectJavaScript</a></td><td>5←≢3-5,7,10</td><td>29</td><td>7</td></tr>
+<tr><td><a href="#listing_5" title="Link to listing">#.PresentAPL.PresentAPL.CheckSlide</a></td><td>7, 8, 9</td><td>67</td><td>9</td></tr>
+<tr><td><a href="#listing_6" title="Link to listing">#.PresentAPL.PresentAPL.MakeSlides</a></td><td>4←≢9-11,13</td><td>69</td><td>13</td></tr>
+<tr><td><a href="#listing_7" title="Link to listing">#.PresentAPL.PresentAPL.MakePresentationFromFile</a></td><td>9, 10</td><td>93</td><td>27</td></tr>
+<tr><td><a href="#listing_8" title="Link to listing">#.PresentAPL.PresentAPL.CreateTopOfHTML_Page</a></td><td>11</td><td>96</td><td>28</td></tr>
+<tr class="fullyCovered"><td><a href="#listing_9" title="Link to listing">#.PresentAPL.PresentAPL.History</a></td><td></td><td>100</td><td>0</td></tr>
+<tr class="fullyCovered"><td><a href="#listing_10" title="Link to listing">#.PresentAPL.PresentAPL.MakePresentationFromMarkdown</a></td><td></td><td>100</td><td>15</td></tr>
+<tr class="fullyCovered"><td><a href="#listing_11" title="Link to listing">#.PresentAPL.PresentAPL.CreateParms</a></td><td></td><td>100</td><td>16</td></tr>
+<tr class="fullyCovered"><td><a href="#listing_12" title="Link to listing">#.PresentAPL.PresentAPL.GetCodeBlocks</a></td><td></td><td>100</td><td>6</td></tr>
+<tr class="fullyCovered"><td><a href="#listing_13" title="Link to listing">#.PresentAPL.PresentAPL.SplitMarkdown</a></td><td></td><td>100</td><td>13</td></tr>
+<tr class="fullyCovered"><td><a href="#listing_14" title="Link to listing">#.PresentAPL.PresentAPL.GetParmsFromMarkdown</a></td><td></td><td>100</td><td>5</td></tr>
+<tr class="fullyCovered"><td><a href="#listing_15" title="Link to listing">#.PresentAPL.PresentAPL.InjectMetaData</a></td><td></td><td>100</td><td>3</td></tr>
+<tr class="fullyCovered"><td><a href="#listing_16" title="Link to listing">#.PresentAPL.PresentAPL.InjectCSS</a></td><td></td><td>100</td><td>8</td></tr>
+</tbody>
+</table>
+</div>
+<script>
+$(document).ready(function() {
+    var oTable;
+    oTable = $("#percent").DataTable( {
+        paging:   false,
+        ordering: true,
+        info:     true,
+        fixedHeader: true,
+        order: [2,"asc"],
+        dom: "Bft",
+        drawCallback: function( settings ) {
+             var api = this.api();
+             $('.header[id^="listing_"]').next().addBack().css("display","none");
+             api.rows( {page:"current"} ).data().each(function(data){
+              id = data[0];
+              id = id.match(/"(\#.*?)"/);
+              if (id){$(id[1]).next().addBack().css("display","block");}
+             })
+        },      
+        buttons: [
+        {
+            text: "Partly covered (5)",
+            titleAttr: "50%",
+            className: "active",
+            action: function ( e, dt, node, config ) {
+                var text = this.text();
+                var search = "^(?!(0%|100%)).*";
+                oTable.column(2)
+                    .search(search,true,false,false)
+                    .draw();
+                $(".dt-buttons button").removeClass("active");
+                this.active( true );
+            }
+        },
+        {
+            text: "Uncovered (3)",
+            titleAttr: "0%",
+            className: "active",
+            action: function ( e, dt, node, config ) {
+                var text = this.text();
+                var search = "^0%";
+                oTable.column(2)
+                    .search(search,true,false,false)
+                    .draw();
+                $(".dt-buttons button").removeClass("active");
+                this.active( true );
+            }
+        },
+        {
+            text: "Fully covered (8)",
+            titleAttr: "100%",
+            className: "active",
+            action: function ( e, dt, node, config ) {
+                var text = this.text();
+                var search = "100%";
+                oTable.column(2)
+                    .search(search,true,false,false)
+                    .draw();
+                $(".dt-buttons button").removeClass("active");
+                this.active( true );
+            }
+        },
+        {
+            text: "All (16)",
+            titleAttr: "all",
+            className: "active",
+            action: function ( e, dt, node, config ) {
+                var text = this.text();
+                var search = ".";
+                oTable.column(2)
+                    .search(search,true,false,false)
+                    .draw();
+                $(".dt-buttons button").removeClass("active");
+                this.active( true );
+            }
+        },
+    ],
+ 
+        columnDefs: [
+            {className: "align-right", targets: [2,3]
+            },
+            {
+                render: function ( data, type, row, meta ) {
+                            return data+"%" ;        
+                        },
+                targets: 2
+            }
+        ]             
+    } );
+    oTable.button(0).trigger();
+
+} );    
+</script>
+<h2>Listings</h2>
+<code class="header" id="listing_1">#.PresentAPL.PresentAPL.Version &mdash; 0%<a class="float-right no-print no-underline top-links" href="#top" title="Go to the top of the document">&#8607;</a><a  class="float-right no-print no-underline top-links" href="#partly-covered" title="Go to the beginning of 'Partly-covered'">↑</a></code>
+<div class="code-block"><code> r←Version</code>
+<code> [1]  :Access Public Shared</code>
+<code class="emphasize">→[2]  r←'PresentAPL' '3.4.0' '2025-08-24'</code>
+</div>
+<code class="header" id="listing_2">#.PresentAPL.PresentAPL.ConvertData2Meta &mdash; 0%<a class="float-right no-print no-underline top-links" href="#top" title="Go to the top of the document">&#8607;</a><a  class="float-right no-print no-underline top-links" href="#partly-covered" title="Go to the beginning of 'Partly-covered'">↑</a></code>
+<div class="code-block"><code> r←ConvertData2Meta meta</code>
+<code class="emphasize">→[1]  r←⍬</code>
+<code class="emphasize">→[2]  :For id value :In meta</code>
+<code class="emphasize">→[3]      r,←⊂'&lt;meta name="',id,'" content="',(⍕value),'" /&gt;'</code>
+<code> [4]  :EndFor</code>
+</div>
+<code class="header" id="listing_3">#.PresentAPL.PresentAPL.AddDefaultParms &mdash; 0%<a class="float-right no-print no-underline top-links" href="#top" title="Go to the top of the document">&#8607;</a><a  class="float-right no-print no-underline top-links" href="#partly-covered" title="Go to the beginning of 'Partly-covered'">↑</a></code>
+<div class="code-block"><code> parms←AddDefaultParms parms</code>
+<code class="emphasize">→[1]  defaults←CreateParms</code>
+<code class="emphasize">→[2]  list←##.APLTreeUtils2.DMB↓defaults.⎕NL 2</code>
+<code class="emphasize">→[3]  :If 0&lt;+/bool←~list∊##.APLTreeUtils2.DMB↓parms.⎕NL 2</code>
+<code class="emphasize">→[4]      buff←defaults.{⍵(⍎⍵)}¨bool/list</code>
+<code class="emphasize">→[5]      parms.{⍎(1⊃⍵),'←2⊃⍵'}¨buff</code>
+<code> [6]  :EndIf</code>
+</div>
+<code class="header" id="listing_4">#.PresentAPL.PresentAPL.InjectJavaScript &mdash; 29%<a class="float-right no-print no-underline top-links" href="#top" title="Go to the top of the document">&#8607;</a><a  class="float-right no-print no-underline top-links" href="#partly-covered" title="Go to the beginning of 'Partly-covered'">↑</a></code>
+<div class="code-block"><code>  {r}←InjectJavaScript parms</code>
+<code> [1]   r←(⊂'&lt;script&gt;'),(GetJavaScript ⍬),(⊂'&lt;/script&gt;')</code>
+<code> [2]   :If 0         ⍝ We have decided that the JavaScript comes from within the PresentAPL class.</code>
+<code class="emphasize">→[3]       :If parms.standalone</code>
+<code class="emphasize">→[4]           :Trap 22</code>
+<code class="emphasize">→[5]               r←(⊂'&lt;script&gt;'),(##.FilesAndDirs.NGET parms.cssURL,'\PresentAPL.js'),⊂'&lt;/script&gt;'</code>
+<code> [6]           :Else</code>
+<code class="emphasize">→[7]               r←(⊂'&lt;script&gt;'),(##.FilesAndDirs.NGET parms.URL,'\Files\PresentAPL.js'),⊂'&lt;/script&gt;'</code>
+<code> [8]           :EndTrap</code>
+<code> [9]       :Else</code>
+<code class="emphasize">→[10]          r←⊂'&lt;script src="PresentAPL.js" type="text/javascript"&gt; &lt;/script&gt;'</code>
+<code> [11]      :EndIf</code>
+<code> [12]  :EndIf</code>
+</div>
+<code class="header" id="listing_5">#.PresentAPL.PresentAPL.CheckSlide &mdash; 67%<a class="float-right no-print no-underline top-links" href="#top" title="Go to the top of the document">&#8607;</a><a  class="float-right no-print no-underline top-links" href="#partly-covered" title="Go to the beginning of 'Partly-covered'">↑</a></code>
+<div class="code-block"><code>  r←no CheckSlide ns</code>
+<code> [1]   :Access Public Shared</code>
+<code> [2]   co←GetCodeBlocks ns.html       ⍝ Code</code>
+<code> [3]   res←{0::'' ⋄ ⍎¨⍵}¨co           ⍝ results</code>
+<code> [4]   ex←2⊃¨ns.data                  ⍝ Expected</code>
+<code> [5]   b←res≢¨{2=≡⍵:,⊂⍵ ⋄ ⍵}ex</code>
+<code> [6]   :If 1∊b</code>
+<code class="emphasize">→[7]       r←'Check code block(s): '</code>
+<code class="emphasize">→[8]       r,←,↑{⍺,',',⍵}/↑¨b/ns.data</code>
+<code class="emphasize">→[9]       r←'' '&lt;p style="color:red;background-color:white;padding:3px;"&gt;'r'&lt;/p&gt;' ''</code>
+<code> [10]  :Else</code>
+<code> [11]      r←''</code>
+<code> [12]  :EndIf</code>
+</div>
+<code class="header" id="listing_6">#.PresentAPL.PresentAPL.MakeSlides &mdash; 69%<a class="float-right no-print no-underline top-links" href="#top" title="Go to the top of the document">&#8607;</a><a  class="float-right no-print no-underline top-links" href="#partly-covered" title="Go to the beginning of 'Partly-covered'">↑</a></code>
+<div class="code-block"><code>  html←mainNs MakeSlides presentation</code>
+<code> [1]   html←''</code>
+<code> [2]   slides←1↓'∆'pres.⎕NL 2</code>
+<code> [3]   :For i :In ⍳≢slides</code>
+<code> [4]       slide←presentation.⍎'∆slide_',¯2↑'0',⍕i</code>
+<code> [5]       (⊃slide)←1↓⊃slide</code>
+<code> [6]       ns←##.MarkAPL.Init parms slide</code>
+<code> [7]       ns←##.MarkAPL.Process ns</code>
+<code> [8]       :If 0≠≢ns.report</code>
+<code class="emphasize">→[9]           :If mainNs.parms.printReportToSession</code>
+<code class="emphasize">→[10]              ⎕←'*** Problem in slide ;',⍕i</code>
+<code class="emphasize">→[11]              ⎕←⍪' ',¨ns.report</code>
+<code> [12]          :EndIf</code>
+<code class="emphasize">→[13]          mainNs.report,←ns.report</code>
+<code> [14]      :EndIf</code>
+<code> [15]      html,←(⊂'&lt;div class="slide"&gt;'),ns.html,(⊂'&lt;/div&gt;')</code>
+<code> [16]  :EndFor</code>
+</div>
+<code class="header" id="listing_7">#.PresentAPL.PresentAPL.MakePresentationFromFile &mdash; 93%<a class="float-right no-print no-underline top-links" href="#top" title="Go to the top of the document">&#8607;</a><a  class="float-right no-print no-underline top-links" href="#partly-covered" title="Go to the beginning of 'Partly-covered'">↑</a></code>
+<div class="code-block"><code>  report←MakePresentationFromFile y</code>
+<code> [1]      ⍝ Create a presentation from `y` which must be one of:</code>
+<code> [2]      ⍝ * Name of a markdown file that defines a presentation</code>
+<code> [3]      ⍝ * A parameter space, typically created by calling `PresentAPL.CreateParms`\\</code>
+<code> [4]      ⍝ Specify just a filename means you are okay with defaults.</code>
+<code> [5]   :Access Public Shared</code>
+<code> [6]   :If 9=⎕NC'y'</code>
+<code> [7]       parms←y</code>
+<code> [8]   :Else</code>
+<code class="emphasize">→[9]       parms←CreateParms</code>
+<code class="emphasize">→[10]      parms.inputFilename←y</code>
+<code> [11]  :EndIf</code>
+<code> [12]  parms.bookmarkLink←0</code>
+<code> [13]  parms.linkToCSS←~parms.standalone</code>
+<code> [14]  parms.screenCSS←parms.css</code>
+<code> [15]  parms.printCSS←''</code>
+<code> [16]  md←⊃##.FilesAndDirs.NGET parms.inputFilename 1</code>
+<code> [17]  :If 0=≢parms.outputFilename</code>
+<code> [18]      parms.outputFilename←(⊃'.'##.APLTreeUtils2.SplitPath parms.inputFilename),'html'</code>
+<code> [19]  :ElseIf (¯1↑parms.outputFilename)∊'/\'</code>
+<code> [20]      parms.outputFilename,←2⊃##.APLTreeUtils2.SplitPath(⊃'.'##.APLTreeUtils2.SplitPath parms.inputFilename),'html'</code>
+<code> [21]  :EndIf</code>
+<code> [22]  parms(GetParmsFromMarkdown)←md</code>
+<code> [23]  pres←SplitMarkdown md</code>
+<code> [24]  pres.∆slide_00←CheckTitle pres.∆slide_00</code>
+<code> [25]  main←pres.⍎⊃↓'∆'pres.⎕NL 2</code>
+<code> [26]  ns←##.MarkAPL.Init parms main</code>
+<code> [27]  ns←##.MarkAPL.Process ns</code>
+<code> [28]  title←⊃ns.headers[1;3]</code>
+<code> [29]  ns.data,⍨←⊂'title'('"',title,'"')  ⍝ Make it the first so that the user can overwrite it if she wishes</code>
+<code> [30]  report←ns.report</code>
+<code> [31]  html←CreateTopOfHTML_Page title ns.data parms</code>
+<code> [32]  html,←⊂'&lt;div class="slides"&gt;'</code>
+<code> [33]  html,←ns MakeSlides pres</code>
+<code> [34]  html,←⊂'&lt;/div&gt;'</code>
+<code> [35]  (⊂html)##.FilesAndDirs.NPUT parms.outputFilename 1</code>
+<code> [36]      ⍝Done</code>
+</div>
+<code class="header" id="listing_8">#.PresentAPL.PresentAPL.CreateTopOfHTML_Page &mdash; 96%<a class="float-right no-print no-underline top-links" href="#top" title="Go to the top of the document">&#8607;</a><a  class="float-right no-print no-underline top-links" href="#partly-covered" title="Go to the beginning of 'Partly-covered'">↑</a></code>
+<div class="code-block"><code>  html←CreateTopOfHTML_Page(title metaData parms)</code>
+<code> [1]   html←''</code>
+<code> [2]   html,←⊂'&lt;!DOCTYPE html&gt;'</code>
+<code> [3]   html,←⊂'&lt;html&gt;'</code>
+<code> [4]   html,←⊂'&lt;head&gt;'</code>
+<code> [5]   html,←⊂'&lt;meta charset="utf-8"&gt;'</code>
+<code> [6]   html,←InjectMetaData metaData</code>
+<code> [7]   html,←InjectCSS parms</code>
+<code> [8]   html,←InjectJavaScript parms</code>
+<code> [9]   html,←⊂''</code>
+<code> [10]  :If 0=≢title</code>
+<code class="emphasize">→[11]      html,←⊂'&lt;title&gt;MarkAPL&lt;/title&gt;'</code>
+<code> [12]  :Else</code>
+<code> [13]      html,←⊂'&lt;title&gt;',title,'&lt;/title&gt;'</code>
+<code> [14]  :EndIf</code>
+<code> [15]  html,←⊂'&lt;!-- statusbar --&gt;'</code>
+<code> [16]  html,←⊂'&lt;div id="statusbar"&gt;'</code>
+<code> [17]  html,←⊂'&lt;span style="float:right;"&gt;'</code>
+<code> [18]  html,←⊂'&lt;span style="margin-right:1em;"&gt;&lt;span id="slideidx"&gt;&lt;/span&gt; of {$slidecount}&lt;/span&gt;'</code>
+<code> [19]  html,←⊂'&lt;button id="homebutton" title="first slide"&gt;1&lt;/button&gt;'</code>
+<code> [20]  html,←⊂'&lt;button id="prevslidebutton" title="previous slide"&gt;&amp;laquo;&lt;/button&gt;'</code>
+<code> [21]  html,←⊂'&lt;button id="previtembutton" title="previous item"&gt;&amp;lsaquo;&lt;/button&gt;'</code>
+<code> [22]  html,←⊂'&lt;button id="nextitembutton" title="next item"&gt;&amp;rsaquo;&lt;/button&gt;'</code>
+<code> [23]  html,←⊂'&lt;button id="nextslidebutton" title="next slide"&gt;&amp;raquo;&lt;/button&gt;'</code>
+<code> [24]  html,←⊂'&lt;button id="endbutton" title="last slide"&gt;{$slidecount}&lt;/button&gt;'</code>
+<code> [25]  html,←⊂'&lt;select id="tocbox"&gt;&lt;/select&gt;'</code>
+<code> [26]  html,←⊂'&lt;/span&gt;'</code>
+<code> [27]  html,←⊂'&lt;span id="eos"&gt;&amp;#10145;&lt;/span&gt;'</code>
+<code> [28]  html,←⊂'&lt;span id="sbtitle"&gt;{$title}&lt;/span&gt;'</code>
+<code> [29]  html,←⊂'&lt;/div&gt;'</code>
+<code> [30]  html←,¨html</code>
+</div>
+<code class="header" id="listing_9">#.PresentAPL.PresentAPL.History &mdash; 100%<a class="float-right no-print no-underline top-links" href="#top" title="Go to the top of the document">&#8607;</a><a  class="float-right no-print no-underline top-links" href="#partly-covered" title="Go to the beginning of 'Partly-covered'">↑</a></code>
+<div class="code-block"><code>  History</code>
+<code> [1]   :Access Public Shared</code>
+<code> [2]        ⍝ * 3.4.0 ⋄ 2025-08-24</code>
+<code> [3]        ⍝   * Packages updated</code>
+<code> [4]        ⍝ * 3.3.2 ⋄ 2024-09-11</code>
+<code> [5]        ⍝   * Visited links were practically unreadable in slides</code>
+<code> [6]        ⍝ * 3.3.1 ⋄ 2024-08-13</code>
+<code> [7]        ⍝   * Build-list was buggy (misspelled Markapl)</code>
+<code> [8]        ⍝ * 3.3.0 ⋄ 2024-08-12</code>
+<code> [9]        ⍝   * `Version` contains now a hard-coded version number</code>
+<code> [10]       ⍝   * Packages updated, in particular MarkAPL 13.0.0</code>
+<code> [11]       ⍝ * 3.2.0</code>
+<code> [12]       ⍝   * Packages updated: MarkAPL (12.1.0) and FilesAndDirs (5.7.0)</code>
+<code> [13]       ⍝ * 3.1.0</code>
+<code> [14]       ⍝   * New version of MarkAPL: 12.0.1</code>
+<code> [15]       ⍝\\</code>
+<code> [16]       ⍝ For information regarding older versions see &lt;https://github.com/aplteam/PresentAPL/releases&gt;</code>
+</div>
+<code class="header" id="listing_10">#.PresentAPL.PresentAPL.MakePresentationFromMarkdown &mdash; 100%<a class="float-right no-print no-underline top-links" href="#top" title="Go to the top of the document">&#8607;</a><a  class="float-right no-print no-underline top-links" href="#partly-covered" title="Go to the beginning of 'Partly-covered'">↑</a></code>
+<div class="code-block"><code>  (html ns)←MakePresentationFromMarkdown(markdown parms)</code>
+<code> [1]        ⍝ Create a presentation from `markdown` and the parameter space `parms`.</code>
+<code> [2]   :Access Public Shared</code>
+<code> [3]   parms.bookmarkLink←0</code>
+<code> [4]   parms.linkToCSS←~parms.standalone</code>
+<code> [5]   parms.screenCSS←parms.css</code>
+<code> [6]   parms.printCSS←''</code>
+<code> [7]   parms(GetParmsFromMarkdown)←markdown</code>
+<code> [8]   pres←SplitMarkdown markdown</code>
+<code> [9]   main←pres.⍎⊃↓'∆'pres.⎕NL 2</code>
+<code> [10]  ns←##.MarkAPL.Init parms main</code>
+<code> [11]  ns←##.MarkAPL.Process ns</code>
+<code> [12]  title←⊃ns.headers[1;3]</code>
+<code> [13]  ns.data,⍨←⊂'title'('"',title,'"')  ⍝ Make it the first so that the user can overwrite it if she wishes</code>
+<code> [14]  html←CreateTopOfHTML_Page title ns.data parms</code>
+<code> [15]  html,←⊂'&lt;div class="slides"&gt;'</code>
+<code> [16]  html,←ns MakeSlides pres</code>
+<code> [17]  html,←⊂'&lt;/div&gt;'</code>
+<code> [18]      ⍝Done</code>
+</div>
+<code class="header" id="listing_11">#.PresentAPL.PresentAPL.CreateParms &mdash; 100%<a class="float-right no-print no-underline top-links" href="#top" title="Go to the top of the document">&#8607;</a><a  class="float-right no-print no-underline top-links" href="#partly-covered" title="Go to the beginning of 'Partly-covered'">↑</a></code>
+<div class="code-block"><code>  r←CreateParms</code>
+<code> [1]      ⍝ Creates a parameter space populated with defaults valuas for the required variables.</code>
+<code> [2]   :Access Public Shared</code>
+<code> [3]   r←##.MarkAPL.CreateParms</code>
+<code> [4]   r.⎕EX¨'linkToCSS' 'screenCSS' 'printCSS'</code>
+<code> [5]   r.base←''</code>
+<code> [6]   r.homeFolder←¯1</code>
+<code> [7]   r.verbose←1                   ⍝ 1=We need to check the results.</code>
+<code> [8]   r.standalone←1                ⍝ 1=Inject CSS into the resulting HTML file, making it stand-alone.</code>
+<code> [9]   r.cssURL←⊃##.APLTreeUtils2.SplitPath ⎕WSID     ⍝ That's where we expect to find the CSS file.</code>
+<code> [10]  r.css←'PresentAPL_Blue.css'   ⍝ The default theme.</code>
+<code> [11]  r.checkFootnotes←0            ⍝ Don't change this: not suitable for presentations.</code>
+<code> [12]  r.subTocs←0                   ⍝ Don't change this: not suitable for presentations.</code>
+<code> [13]  r.bookmarkLink←0              ⍝ Don't change this: not suitable for presentations.</code>
+<code> [14]  r.ignoreEmbeddedParms←0</code>
+<code> [15]  r.title←'PresentAPL'</code>
+<code> [16]  r.printReportToSession←0</code>
+<code> [17]  r.bookmarkMayStartWithDigit←1</code>
+<code> [18]  r.⎕FX'r←∆List;⎕IO' '⍝ List all variables and possible references in this namespace' '⎕IO←1' 'r←{⍵,[1.5]⍎¨⍵}⎕NL-2 9'</code>
+</div>
+<code class="header" id="listing_12">#.PresentAPL.PresentAPL.GetCodeBlocks &mdash; 100%<a class="float-right no-print no-underline top-links" href="#top" title="Go to the top of the document">&#8607;</a><a  class="float-right no-print no-underline top-links" href="#partly-covered" title="Go to the beginning of 'Partly-covered'">↑</a></code>
+<div class="code-block"><code>  r←GetCodeBlocks html</code>
+<code> [1]   :Access Public Shared</code>
+<code> [2]      ⍝ Returns the code found in `&lt;pre&gt;&lt;code&gt;` blocks. Every block is an item. An item might have</code>
+<code> [3]      ⍝ several sub items, depending on the number of lines of the code block in question.</code>
+<code> [4]   html←1↓⊃,/(⎕UCS 13),¨html</code>
+<code> [5]   :If 0≠≢hits←'&lt;pre\b[^&gt;]*&gt;&lt;code\b[^&gt;]*&gt;'⎕S 0(⍠'Mode' 'D')⊣html</code>
+<code> [6]       r←((⍳⍴html)∊hits)⊂html</code>
+<code> [7]       r←{'&lt;pre\b[^&gt;]*&gt;&lt;code\b[^&gt;]*&gt;'⎕R''⊣⍵}¨r</code>
+<code> [8]       r←1↓¨({'&lt;/code&gt;&lt;/pre&gt;'⎕S 0⍠('Mode' 'D')⊣⍵}¨r)↑¨r</code>
+<code> [9]       r←(⎕UCS 13)##.APLTreeUtils2.Split¨r</code>
+<code> [10]  :EndIf</code>
+</div>
+<code class="header" id="listing_13">#.PresentAPL.PresentAPL.SplitMarkdown &mdash; 100%<a class="float-right no-print no-underline top-links" href="#top" title="Go to the top of the document">&#8607;</a><a  class="float-right no-print no-underline top-links" href="#partly-covered" title="Go to the beginning of 'Partly-covered'">↑</a></code>
+<div class="code-block"><code>  r←SplitMarkdown md</code>
+<code> [1]   r←⎕NS''</code>
+<code> [2]   bool←('## '∘≡¨3↑¨md)∨'# '∘≡¨2↑¨md</code>
+<code> [3]   :If 0=1⍴bool</code>
+<code> [4]       noOf←¯1+bool⍳1</code>
+<code> [5]       data←md[1+'\[data\]:'⎕S 2⍠('Greedy' 0)('Mode' 'L')('IC' 1)⊣noOf↑md]           ⍝ Get all "leading" `[data]:`</code>
+<code> [6]       (noOf↑md)←noOf↑'\[data\]:.*$'⎕R''⍠('Greedy' 0)('Mode' 'L')('IC' 1)⊣noOf↑md    ⍝ Remove them from the markdown</code>
+<code> [7]   :Else</code>
+<code> [8]       data←''</code>
+<code> [9]   :EndIf</code>
+<code> [10]  buff←bool⊂md</code>
+<code> [11]  :If ~0=≢data</code>
+<code> [12]      first←1⊃buff</code>
+<code> [13]      first←(1⍴first),data,1↓first                                    ⍝ Inject the `[data]` stuff into first slide</code>
+<code> [14]      (1⊃buff)←first</code>
+<code> [15]  :EndIf</code>
+<code> [16]  buff r.{⍎'∆slide_',(¯2↑'00',(⍕⍵)),'←⍺'}¨¯1+⍳⍴buff</code>
+<code> [17]     ⍝Done</code>
+</div>
+<code class="header" id="listing_14">#.PresentAPL.PresentAPL.GetParmsFromMarkdown &mdash; 100%<a class="float-right no-print no-underline top-links" href="#top" title="Go to the top of the document">&#8607;</a><a  class="float-right no-print no-underline top-links" href="#partly-covered" title="Go to the beginning of 'Partly-covered'">↑</a></code>
+<div class="code-block"><code> parms←parms GetParmsFromMarkdown markdown</code>
+<code> [1]  :If 0&lt;+/bool←'[parm]:'∘{⍺≡⎕C(⍴⍺)↑⍵}¨markdown</code>
+<code> [2]      buff←(⍴'[parm]:')↓¨bool⌿markdown</code>
+<code> [3]      buff←↑'='##.APLTreeUtils2.Split¨buff</code>
+<code> [4]      buff[;2]←##.APLTreeUtils2.DLB ##.APLTreeUtils2.DTB buff[;2]</code>
+<code> [5]      parms.{⍎(1⊃⍵),'←',⍕2⊃⍵}¨↓buff</code>
+<code> [6]  :EndIf</code>
+</div>
+<code class="header" id="listing_15">#.PresentAPL.PresentAPL.InjectMetaData &mdash; 100%<a class="float-right no-print no-underline top-links" href="#top" title="Go to the top of the document">&#8607;</a><a  class="float-right no-print no-underline top-links" href="#partly-covered" title="Go to the beginning of 'Partly-covered'">↑</a></code>
+<div class="code-block"><code> html←InjectMetaData metaData</code>
+<code> [1]  html←''</code>
+<code> [2]  :For id content :In metaData</code>
+<code> [3]      html,←⊂'&lt;meta name="',id,'" content="',(content~'"'),'" /&gt;'</code>
+<code> [4]  :EndFor</code>
+</div>
+<code class="header" id="listing_16">#.PresentAPL.PresentAPL.InjectCSS &mdash; 100%<a class="float-right no-print no-underline top-links" href="#top" title="Go to the top of the document">&#8607;</a><a  class="float-right no-print no-underline top-links" href="#partly-covered" title="Go to the beginning of 'Partly-covered'">↑</a></code>
+<div class="code-block"><code>  {r}←InjectCSS parms</code>
+<code> [1]   :If parms.standalone</code>
+<code> [2]       filename←parms.cssURL{0=≢⍺:⍵ ⋄ ⍺,'\',⍵}parms.css</code>
+<code> [3]       :If ~##.FilesAndDirs.IsFile filename</code>
+<code> [4]           filename←##.TatinVars.GetFullPath2AssetsFolder,'CSS/',parms.css</code>
+<code> [5]       :EndIf</code>
+<code> [6]       css←⊃##.FilesAndDirs.NGET filename</code>
+<code> [7]       css←##.MarkAPL.CompressCSS css</code>
+<code> [8]       r←'&lt;style&gt;'css'&lt;/style&gt;'</code>
+<code> [9]   :Else</code>
+<code> [10]      r←⊂'&lt;link rel="stylesheet" type="text/css" href="',parms.cssURL,parms.css,'" /&gt; '</code>
+<code> [11]  :EndIf</code>
+</div>
+<div id="footer">
+<hr>
+<p>Created by "CodeCoverage" version 0.11.1+74</p>
+</div>
+
+</body>
+</html>

@@ -35,11 +35,15 @@
 
     ∇ r←Version
       :Access Public Shared
-      r←'PresentAPL' '3.3.1' '2024-08-13'
+      r←'PresentAPL' '3.4.0' '2025-08-24'
     ∇
 
     ∇ History
       :Access Public Shared
+      ⍝ * 3.4.0 ⋄ 2025-08-24
+      ⍝   * Packages updated
+      ⍝ * 3.3.2 ⋄ 2024-09-11
+      ⍝   * Visited links were practically unreadable in slides
       ⍝ * 3.3.1 ⋄ 2024-08-13
       ⍝   * Build-list was buggy (misspelled Markapl)
       ⍝ * 3.3.0 ⋄ 2024-08-12
