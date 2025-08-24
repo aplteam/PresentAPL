@@ -9,7 +9,7 @@
   license: "MIT",
   lx: "",
   maintainer: "kai@aplteam.com",
-  minimumAplVersion: "18.0",
+  minimumAplVersion: "18.2",
   ml: 1,
   name: "PresentAPL",
   os_lin: 1,
@@ -19,5 +19,5 @@
   source: "APLSource/PresentAPL.aplc",
   tags: "presentation",
   userCommandScript: "",
-  version: "3.3.2+87",
+  version: "3.4.0+89",
 }
