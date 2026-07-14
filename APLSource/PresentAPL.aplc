@@ -43,11 +43,11 @@
       ⍝ * 4.0.0 ⋄ 2026-07-14
       ⍝   * Function `MakePresentationFromMarkdown` renamed: `MakePresentationFromMarkdownArray`
       ⍝   * Testing APL expressions no longer supported
-      ⍝   * Two new CSS files introduced: "PresentAPL_Modern.css" (the default) & "PresentAPL_Classic.css"
+      ⍝   * New CSS file introduced: "PresentAPL_Modern.css"
       ⍝   * The two CSS files "PresentAPL_[Blue|Green].css" files have been retired
       ⍝   * Code blocks now have a copy-to-clipboard button
       ⍝   * Print improved
-      ⍝   * Presentations ("About" and "Sample") amended and bugs fixed
+      ⍝   * Presentations ("About_PresentAPL" and "Sample") amended and bugs fixed
       ⍝   * The font "APL385 Unicode" is now injected as BASE64 when standalone←1, making a presentation truly stand-alone
       ⍝   * Image dependency removed
       ⍝   * Packages updated
