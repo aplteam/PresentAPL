@@ -2,7 +2,7 @@
  r←⍬
  parms←##.PresentAPL.CreateParms
  parms.inputFilename←filename,'.md'
- parms.css←'presentapl_blue.css'
+ parms.css←'PresentAPL_Modern.css'
  parms.cssURL←'./'
  ##.PresentAPL.MakePresentationFromFile parms
  M.U.Assert ##.FilesAndDirs.Exists filename,'.html'

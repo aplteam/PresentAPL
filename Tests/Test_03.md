@@ -24,8 +24,6 @@
       (+/⍳100)(×/⍳10)
 ```
 
-⍎⍎#.PresentAPL.PresentAPL.CheckSlide 1⍎⍎
-
 1. First
 1. Second
 1. Third
@@ -35,3 +33,4 @@
 Same as Test_02.md except that there is a `[Data]` further down.
 This is useful for testing expressions.
 This was once a bug.
+

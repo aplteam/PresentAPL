@@ -1,6 +1,9 @@
  {r}←Make flag;M;A;name;F;C;cfg;targetPath;parms;rc;zipFilename;version
  r←''
  :If flag
+     :If 0=⎕SE.⎕NC'MakeHelpers'
+         'Could not load the "MakeHelpers" package'Assert ⎕SE.Tatin.LoadPackages'[tatin]MakeHelpers' '⎕SE'
+     :EndIf
      M←⎕SE.MakeHelpers
      C←##.CiderConfig
      name←'PresentAPL'
@@ -8,6 +11,12 @@
      F←##.FilesAndDirs
      targetPath←C.HOME,'/Dist'
     ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
+     parms←##.PresentAPL.CreateParms
+     parms.inputFilename←##.CiderConfig.HOME,'/Assets/Presentations/About_PresentAPL.md'
+     {}##.PresentAPL.MakePresentationFromFile parms
+     parms←##.PresentAPL.CreateParms
+     parms.inputFilename←##.CiderConfig.HOME,'/Assets/Presentations/Samples.md'
+     {}##.PresentAPL.MakePresentationFromFile parms
      M.RecreateFolder targetPath
      parms←⎕SE.Tatin.CreateBuildParms C.HOME
      parms.targetPath←targetPath

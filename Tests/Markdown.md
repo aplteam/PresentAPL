@@ -1,5 +1,3 @@
-[parm]: css    = 'PresentAPL_blue.css'
-
 # Markdown & MarkAPL
 
 [Data]:author="Kai Jaeger"
@@ -120,3 +118,4 @@ application is required that converts Markdown fils to HTML files:
  * Drag-and-drop onto the GUI (Windows only)
   
 ### Markdown editor
+

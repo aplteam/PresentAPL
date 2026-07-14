@@ -1,6 +1,7 @@
 {
   api: "PresentAPL",
   assets: "Assets/",
+  checkLICENSEfile: 1,
   description: "Create a presentation from Markdown",
   documentation: "",
   files: "",
@@ -19,5 +20,5 @@
   source: "APLSource/PresentAPL.aplc",
   tags: "presentation",
   userCommandScript: "",
-  version: "3.4.0+89",
+  version: "4.0.0+93",
 }

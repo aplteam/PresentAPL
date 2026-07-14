@@ -16,27 +16,30 @@ should get you going regarding Markdown and MarkAPL, the Markdown converter used
 * The file ["MarkAPL.html"](http://htmlpreview.github.com/?https://github.com/aplteam/MarkAPL/blob/master/MarkAPL.html) 
 is a full reference to MarkAPL.
 
-Note that PresentAPL can be used in to different ways.
-
-* On any platform you can load the workspace `PresetAPL.dws` and create or modify a presentation from within the workspace. For more inforamtion see "Using PresentAPL from within APL code" further down.
-
-* If you use the Windows platform then you can use `PresetAPL.exe`. For this you down't even need Dyalog APL at all.
-
 
 ## How to create a presentation  
 
-After loading the package into the workspace:
+Step 1: Load the package into the workspace:
 
 ```
 ]LoadPackages [tatin]PresentAPL
 ```
 
-You can create a presentation with 
+Step 2: Create a presentation from a file with:
 
 ```
     parms←PresentAPL.CreateParms 
     parms.inputFilename←'/path/2/presentation.md'
     PresentAPL.MakePresentationFromFile parms                                        
+```
+
+Note that you can also create a presentation from an array that holds markdown:
+
+```
+    parms←PresentAPL.CreateParms 
+    parms.outputFilename←'/path/2/MyPresentation.html'
+    myMD←'# My Markdown' '' 'A paragraph'
+    PresentAPL.MakePresentationFromMarkdown myMD parms                                        
 ```
 
 
@@ -49,7 +52,7 @@ See <https://github.com/aplteam/Meddy> for details. Note however that Meddy is a
 
 ## Misc
 
-Please send comments, suggestions and bug reports to info@aplteam.com.
+Please send comments, suggestions and bug reports to kai@aplteam.com.
 
 License: http://creativecommons.org/licenses/LGPL/2.1/
 
@@ -62,4 +65,5 @@ Kai Jaeger
 
 Created: 2016-04-12
 
-Last update: 2023-07-31
+Last update: 2026-07-13
+

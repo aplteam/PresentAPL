@@ -35,11 +35,22 @@
 
     ∇ r←Version
       :Access Public Shared
-      r←'PresentAPL' '3.4.0' '2025-08-24'
+      r←'PresentAPL' '4.0.0' '2026-07-14'
     ∇
 
     ∇ History
       :Access Public Shared
+      ⍝ * 4.0.0 ⋄ 2026-07-14
+      ⍝   * Function `MakePresentationFromMarkdown` renamed: `MakePresentationFromMarkdownArray`
+      ⍝   * Testing APL expressions no longer supported
+      ⍝   * Two new CSS files introduced: "PresentAPL_Modern.css" (the default) & "PresentAPL_Classic.css"
+      ⍝   * The two CSS files "PresentAPL_[Blue|Green].css" files have been retired
+      ⍝   * Code blocks now have a copy-to-clipboard button
+      ⍝   * Print improved
+      ⍝   * Presentations ("About" and "Sample") amended and bugs fixed
+      ⍝   * The font "APL385 Unicode" is now injected as BASE64 when standalone←1, making a presentation truly stand-alone
+      ⍝   * Image dependency removed
+      ⍝   * Packages updated
       ⍝ * 3.4.0 ⋄ 2025-08-24
       ⍝   * Packages updated
       ⍝ * 3.3.2 ⋄ 2024-09-11
@@ -48,7 +59,7 @@
       ⍝   * Build-list was buggy (misspelled Markapl)
       ⍝ * 3.3.0 ⋄ 2024-08-12
       ⍝   * `Version` contains now a hard-coded version number
-      ⍝   * Packages updated, in particular MarkAPL 13.0.0  
+      ⍝   * Packages updated, in particular MarkAPL 13.0.0
       ⍝ * 3.2.0
       ⍝   * Packages updated: MarkAPL (12.1.0) and FilesAndDirs (5.7.0)
       ⍝ * 3.1.0
@@ -96,7 +107,7 @@
      ⍝Done
     ∇
 
-    ∇ (html ns)←MakePresentationFromMarkdown(markdown parms);pres;main;title;html
+    ∇ (html ns)←MakePresentationFromMarkdownArray(markdown parms);pres;main;title;html
       ⍝ Create a presentation from `markdown` and the parameter space `parms`.
       :Access Public Shared
       parms.bookmarkLink←0
@@ -125,9 +136,9 @@
       r.base←''
       r.homeFolder←¯1
       r.verbose←1                   ⍝ 1=We need to check the results.
-      r.standalone←1                ⍝ 1=Inject CSS into the resulting HTML file, making it stand-alone.
+      r.standalone←1                ⍝ 1=Inject CSS and the font (as BASE64) into the resulting HTML file, making it stand-alone.
       r.cssURL←⊃##.APLTreeUtils2.SplitPath ⎕WSID     ⍝ That's where we expect to find the CSS file.
-      r.css←'PresentAPL_Blue.css'   ⍝ The default theme.
+      r.css←'PresentAPL_Modern.css' ⍝ The default theme.
       r.checkFootnotes←0            ⍝ Don't change this: not suitable for presentations.
       r.subTocs←0                   ⍝ Don't change this: not suitable for presentations.
       r.bookmarkLink←0              ⍝ Don't change this: not suitable for presentations.
@@ -148,21 +159,6 @@
           r←{'<pre\b[^>]*><code\b[^>]*>'⎕R''⊣⍵}¨r
           r←1↓¨({'</code></pre>'⎕S 0⍠('Mode' 'D')⊣⍵}¨r)↑¨r
           r←(⎕UCS 13)##.APLTreeUtils2.Split¨r
-      :EndIf
-    ∇
-
-    ∇ r←no CheckSlide ns;co;res;ex;b
-      :Access Public Shared
-      co←GetCodeBlocks ns.html       ⍝ Code
-      res←{0::'' ⋄ ⍎¨⍵}¨co           ⍝ results
-      ex←2⊃¨ns.data                  ⍝ Expected
-      b←res≢¨{2=≡⍵:,⊂⍵ ⋄ ⍵}ex
-      :If 1∊b
-          r←'Check code block(s): '
-          r,←,↑{⍺,',',⍵}/↑¨b/ns.data
-          r←'' '<p style="color:red;background-color:white;padding:3px;">'r'</p>' ''
-      :Else
-          r←''
       :EndIf
     ∇
 
@@ -211,7 +207,7 @@
     ∇ r←ConvertData2Meta meta;id;value
       r←⍬
       :For id value :In meta
-          r,←⊂'<meta name="',id,'" content="',(⍕value),'" />'
+          r,←⊂'<meta name="',id,'" content="',(⍕value),'">'
       :EndFor
     ∇
 
@@ -261,18 +257,28 @@
     ∇ html←InjectMetaData metaData;id;content
       html←''
       :For id content :In metaData
-          html,←⊂'<meta name="',id,'" content="',(content~'"'),'" />'
+          html,←⊂'<meta name="',id,'" content="',(content~'"'),'">'
       :EndFor
     ∇
 
-    ∇ {r}←InjectCSS parms;fn;list;file;css;filename
+    ∇ {r}←InjectCSS parms;fn;list;file;css;filename;b;noOf;noOf2;fontName;buff
       :If parms.standalone
           filename←parms.cssURL{0=≢⍺:⍵ ⋄ ⍺,'\',⍵}parms.css
           :If ~##.FilesAndDirs.IsFile filename
               filename←##.TatinVars.GetFullPath2AssetsFolder,'CSS/',parms.css
           :EndIf
           css←⊃##.FilesAndDirs.NGET filename
-          css←##.MarkAPL.CompressCSS css
+          :If ∨/b←'<<FONT-BASE64:'⍷css
+              noOf←¯1+b⍳1
+              css←noOf⌽css
+              css←(≢'<<FONT-BASE64:')↓css
+              noOf2←{1+1⍳⍨'>>'⍷⍵}css
+              fontName←{⍵↑⍨¯1+⍵⍳'>'}noOf2↑css
+              buff←⎕TC~⍨⊃⎕NGET ##.TatinVars.GetFullPath2AssetsFolder,'Fonts/',fontName,'-woff.base64'
+              css←buff,noOf2↓css
+              css←(-noOf)⌽css
+          :EndIf
+          css←##.MarkAPL.CompressCSS⍣(⊃parms.compressCSS)⊢css
           r←'<style>'css'</style>'
       :Else
           r←⊂'<link rel="stylesheet" type="text/css" href="',parms.cssURL,parms.css,'" /> '
@@ -280,7 +286,7 @@
     ∇
 
     ∇ {r}←InjectJavaScript parms
-      r←(⊂'<script>'),(GetJavaScript ⍬),(⊂'</script>')
+      r←(⊂'<script>'),GetJavaScript,(⊂'</script>')
       :If 0         ⍝ We have decided that the JavaScript comes from within the PresentAPL class.
           :If parms.standalone
               :Trap 22
@@ -301,330 +307,10 @@
           html
       }
 
-      GetJavaScript←{
-          r←''
-          r,←⊂'/*   This work is licensed under Creative Commons GNU LGPL License.'
-          r,←⊂''
-          r,←⊂'    Originated as "slideous.js"'
-          r,←⊂'    '
-          r,←⊂' License: http://creativecommons.org/licenses/LGPL/2.1/'
-          r,←⊂''
-          r,←⊂' Author:  Stefan Goessner/2005-2006'
-          r,←⊂' Web:     http://goessner.net/ '
-          r,←⊂' '
-          r,←⊂' Enhanced to "PresentAPL" by Kai Jaeger'
-          r,←⊂'*/'
-          r,←⊂'var Slideous = {'
-          r,←⊂'   version: 1.0,'
-          r,←⊂'   // == user customisable ==='
-          r,←⊂'   clickables: { a: true, button: true, img: true, input: true, object: true, textarea: true, select: true, option: true },'
-          r,←⊂'   incrementables: { '
-          r,←⊂'                     blockquote: { filter: "self, parent" }, '
-          r,←⊂'                     dd: { filter: "self, parent" },'
-          r,←⊂'                     dt: { filter: "self, parent" },'
-          r,←⊂'                     h2: { filter: "self, parent" },'
-          r,←⊂'                     h3: { filter: "self, parent" },'
-          r,←⊂'                     h4: { filter: "self, parent" },'
-          r,←⊂'                     h5: { filter: "self, parent" },'
-          r,←⊂'                     h6: { filter: "self, parent" },'
-          r,←⊂'                     li: { filter: "self, parent" },'
-          r,←⊂'                     p: { filter: "self" }, '
-          r,←⊂'                     pre: { filter: "self" }, '
-          r,←⊂'                     img: { filter: "self, parent" }, '
-          r,←⊂'                     hr: { filter: "self, parent" },'
-          r,←⊂'                     object: { filter: "self, parent" },'
-          r,←⊂'                     table: { filter: "self, parent" },'
-          r,←⊂'                   },'
-          r,←⊂'   autoincrementables: { ol:true, ul:true, dl:true, p:true, pre:true, h3:true, h4:true, h5:true, h6:true, img:true, table:true, blockquote:true, object:true, hr:true},'
-          r,←⊂'   autoincrement: true,'
-          r,←⊂'   statusbar: true,'
-          r,←⊂'   navbuttons: { contentbutton:   function(){Slideous.gotoslide(Slideous.tocidx(), true, true);},'
-          r,←⊂'                 homebutton:      function(){Slideous.gotoslide(1, true, true);},'
-          r,←⊂'                 prevslidebutton: function(){Slideous.previous(false);},'
-          r,←⊂'                 previtembutton:  function(){Slideous.previous(true);},'
-          r,←⊂'                 nextitembutton:  function(){Slideous.next(true);},'
-          r,←⊂'                 nextslidebutton: function(){Slideous.next(false);},'
-          r,←⊂'                 endbutton:       function(){Slideous.gotoslide(Slideous.count,true,true);} },'
-          r,←⊂'   fontsize: 125,  // in percent, corresponding to body.font-size in css file'
-          r,←⊂'   fontdelta: 5,   // increase/decrease fontsize by this value'
-          r,←⊂'   mousesensitive: false,'
-          r,←⊂'   tocidx: 0,'
-          r,←⊂'   tocitems: { toc: "<li><a href=\"#s{\$slideidx}\">{\$slidetitle}</a></li>",'
-          r,←⊂'               tocbox: "<option value=\"#s{\$slideidx}\" title=\"{\$slidetitle}\">{\$slidetitle}</option>" },'
-          r,←⊂'   keydown: function(evt) {'
-          r,←⊂'      evt = evt || window.event;'
-          r,←⊂'      var key = evt.keyCode || evt.which;'
-          r,←⊂'      if (key && !evt.ctrlKey && !evt.altKey) {'
-          r,←⊂'         switch (key) {'
-          r,←⊂'            case 33: // page up  ... previous slide'
-          r,←⊂'               Slideous.previous(false); evt.cancel = !Slideous.showall; break;'
-          r,←⊂'            case 37: // left arrow ... previous item'
-          r,←⊂'               Slideous.previous(true); evt.cancel = !Slideous.showall; break;'
-          r,←⊂'            case 32: // space bar'
-          r,←⊂'            case 39: // right arrow'
-          r,←⊂'               Slideous.next(true); evt.cancel = !Slideous.showall; break;'
-          r,←⊂'            case 13: // carriage return  ... next slide'
-          r,←⊂'            case 34: // page down'
-          r,←⊂'               Slideous.next(false); evt.cancel = !Slideous.showall; break;'
-          r,←⊂'            case 35: // end  ... last slide (not recognised by opera)'
-          r,←⊂'               Slideous.gotoslide(Slideous.count, true, true); evt.cancel = !Slideous.showall; break;'
-          r,←⊂'            case 36: // home ... first sssslide (not recognised by opera)'
-          r,←⊂'               Slideous.gotoslide(1, true, true); evt.cancel = !Slideous.showall; break;'
-          r,←⊂'            case 65: // ##.APLTreeUtils2 ... show All'
-          r,←⊂'            case 80: // P ... Print mode'
-          r,←⊂'               Slideous.toggleshowall(!Slideous.showall); evt.cancel = true; break;'
-          r,←⊂'            case 67: // C ... goto contents'
-          r,←⊂'               Slideous.gotoslide(Slideous.tocidx, true, true); evt.cancel = true; break;'
-          r,←⊂'            case 77: // M ... toggle mouse sensitivity'
-          r,←⊂'               Slideous.mousenavigation(Slideous.mousesensitive = !Slideous.mousesensitive); evt.cancel = true; break;'
-          r,←⊂'            case 83: // S ... toggle statusbar'
-          r,←⊂'               Slideous.togglestatusbar(); evt.cancel = true; break;'
-          r,←⊂'            case 61:  // + ... increase fontsize'
-          r,←⊂'            default: break;'
-          r,←⊂'         }'
-          r,←⊂'         if (evt.cancel) evt.returnValue = false;'
-          r,←⊂'      }'
-          r,←⊂'      return !evt.cancel;'
-          r,←⊂'   },'
-          r,←⊂''
-          r,←⊂'   // == program logic ==='
-          r,←⊂'   count: 0,                       // # of slides ..'
-          r,←⊂'   curidx: 0,                      // current slide index ..'
-          r,←⊂'   mousedownpos: null,             // last mouse down position ..'
-          r,←⊂'   contentselected: false,         // indicates content selection ..'
-          r,←⊂'   showall: true,'
-          r,←⊂'   init: function() {'
-          r,←⊂'      Slideous.curidx = 1;'
-          r,←⊂'      Slideous.importproperties();'
-          r,←⊂'      Slideous.registerslides();'
-          r,←⊂'      document.body.innerHTML = Slideous.injectproperties(document.body.innerHTML);'
-          r,←⊂'      Slideous.buildtocs();'
-          r,←⊂'      Slideous.registeranchors();'
-          r,←⊂'      Slideous.toggleshowall(false);'
-          r,←⊂'      Slideous.updatestatus();'
-          r,←⊂'      document.body.style.fontSize = Slideous.fontsize+"%";'
-          r,←⊂'      document.getElementById("s1").style.display = "block";'
-          r,←⊂'      document.onkeydown = Slideous.keydown;'
-          r,←⊂'      Slideous.mousenavigation(Slideous.mousesensitive);'
-          r,←⊂'      Slideous.registerbuttons();'
-          r,←⊂'      if (window.location.hash)'
-          r,←⊂'         Slideous.gotoslide(window.location.hash.substr(2), true, true);'
-          r,←⊂'   },'
-          r,←⊂'   registerslides: function() {'
-          r,←⊂'      var div = document.getElementsByTagName("div");'
-          r,←⊂'      Slideous.count = 0;'
-          r,←⊂'      for (var i in div)'
-          r,←⊂'         if (Slideous.hasclass(div[i], "slide"))'
-          r,←⊂'            div[i].setAttribute("id", "s"+(++Slideous.count));'
-          r,←⊂'   },'
-          r,←⊂'   registeranchors: function() {'
-          r,←⊂'      var a = document.getElementsByTagName("a"),'
-          r,←⊂'          loc = (window.location.hostname+window.location.pathname).replace(/\\/g, "/");'
-          r,←⊂'      for (var i in a) {'
-          r,←⊂'         if (a[i].href && a[i].href.indexOf(loc) >= 0 && a[i].href.lastIndexOf("#") >= 0) {'
-          r,←⊂'            a[i].href = "javascript:Slideous.gotoslide(" + a[i].href.substr(a[i].href.lastIndexOf("#")+2)+",true,true)";'
-          r,←⊂'         }'
-          r,←⊂'      }'
-          r,←⊂'   },'
-          r,←⊂'   registerbuttons: function() {'
-          r,←⊂'      var button;'
-          r,←⊂'      for (var b in Slideous.navbuttons)'
-          r,←⊂'         if (button = document.getElementById(b))'
-          r,←⊂'            button.onclick = Slideous.navbuttons[b];'
-          r,←⊂'   },'
-          r,←⊂'   importproperties: function() {  // from html meta section ..'
-          r,←⊂'      var meta = document.getElementsByTagName("meta"), elem;'
-          r,←⊂'      for (var i in meta)'
-          r,←⊂'         if (meta[i].attributes && meta[i].attributes["name"] && meta[i].attributes["name"].value in Slideous)'
-          r,←⊂'            switch (typeof(Slideous[meta[i].attributes["name"].value])) {'
-          r,←⊂'               case "number": Slideous[meta[i].attributes["name"].value] = parseInt(meta[i].attributes["content"].value); break;'
-          r,←⊂'               case "boolean": Slideous[meta[i].attributes["name"].value] = meta[i].attributes["content"].value == "true" ? true : false; break;'
-          r,←⊂'               default: Slideous[meta[i].attributes["name"].value] = meta[i].attributes["content"].value; break;'
-          r,←⊂'            }'
-          r,←⊂'   },'
-          r,←⊂'   injectproperties: function(str) {'
-          r,←⊂'      var meta = document.getElementsByTagName("meta"), elem;'
-          r,←⊂'      for (var i in meta) {'
-          r,←⊂'         if (meta[i].attributes && meta[i].attributes["name"])'
-          r,←⊂'            str = str.replace(new RegExp("{\\$"+meta[i].attributes["name"].value+"}","g"), meta[i].attributes["content"].value);'
-          r,←⊂'      }'
-          r,←⊂'      return str = str.replace(/{\$generator}/g, "Slideous")'
-          r,←⊂'                      .replace(/{\$version}/g, Slideous.version)'
-          r,←⊂'                      .replace(/{\$title}/g, document.title)'
-          r,←⊂'                      .replace(/{\$slidecount}/g, Slideous.count);'
-          r,←⊂'   },'
-          r,←⊂'   buildtocs: function() {'
-          r,←⊂'      var toc = document.getElementById("toc"), list = "",'
-          r,←⊂'          tocbox = document.getElementById("tocbox");'
-          r,←⊂'      if (toc) {'
-          r,←⊂'         for (var i=0; i<Slideous.count; i++)'
-          r,←⊂'            list += Slideous.tocitems.toc.replace(/{\$slideidx}/g, i+1).replace(/{\$slidetitle}/, document.getElementById("s"+(i+1)).getElementsByTagName("h1")[0].innerHTML);'
-          r,←⊂'         toc.innerHTML = list;'
-          r,←⊂'         while (toc && !Slideous.hasclass(toc, "slide")) toc = toc.parentNode;'
-          r,←⊂'         if (toc) Slideous.tocidx = toc.getAttribute("id").substr(1);'
-          r,←⊂'      }'
-          r,←⊂'      if (tocbox) {'
-          r,←⊂'         tocbox.innerHTML = "";'
-          r,←⊂'         for (var i=0; i<Slideous.count; i++)'
-          r,←⊂'            tocbox.options[tocbox.length] = new Option((i+1)+". "+document.getElementById("s"+(i+1)).getElementsByTagName("h1")[0].innerHTML, "#s"+(i+1));'
-          r,←⊂'         tocbox.onchange = function() { Slideous.gotoslide(this.selectedIndex+1, true, true); };'
-          r,←⊂'      }'
-          r,←⊂'   },'
-          r,←⊂'   next: function(deep) {'
-          r,←⊂'      if (!Slideous.showall) {'
-          r,←⊂'         var slide = document.getElementById("s"+Slideous.curidx),'
-          r,←⊂'             item = Slideous.firstitem(slide, Slideous.isitemhidden);'
-          r,←⊂'         if (deep) {  // next item'
-          r,←⊂'            if (item)'
-          r,←⊂'               Slideous.displayitem(item, true);'
-          r,←⊂'            else'
-          r,←⊂'               Slideous.gotoslide(Slideous.curidx+1, false, false);'
-          r,←⊂'         }'
-          r,←⊂'         else if (item)  // complete slide ..'
-          r,←⊂'            while (item = Slideous.firstitem(slide, Slideous.isitemhidden))'
-          r,←⊂'               Slideous.displayitem(item, true);'
-          r,←⊂'         else           // next slide'
-          r,←⊂'            Slideous.gotoslide(Slideous.curidx+1, true, false);'
-          r,←⊂'         Slideous.updatestatus();'
-          r,←⊂'      }'
-          r,←⊂'   },'
-          r,←⊂'   previous: function(deep) {'
-          r,←⊂'      if (!Slideous.showall) {'
-          r,←⊂'         var slide = document.getElementById("s"+Slideous.curidx);'
-          r,←⊂'         if (deep) {'
-          r,←⊂'            var item = Slideous.lastitem(slide, Slideous.isitemvisible);'
-          r,←⊂'            if (item)'
-          r,←⊂'               Slideous.displayitem(item, false);'
-          r,←⊂'            else'
-          r,←⊂'               Slideous.gotoslide(Slideous.curidx-1, true, false);'
-          r,←⊂'         }'
-          r,←⊂'         else'
-          r,←⊂'            Slideous.gotoslide(Slideous.curidx-1, true, false);'
-          r,←⊂'         Slideous.updatestatus();'
-          r,←⊂'      }'
-          r,←⊂'   },'
-          r,←⊂'   gotoslide: function(i, showitems, updatestatus) {'
-          r,←⊂'      if (!Slideous.showall && i > 0 && i <= Slideous.count && i != Slideous.curidx) {'
-          r,←⊂'         document.getElementById("s"+Slideous.curidx).style.display = "none";'
-          r,←⊂'         var slide = document.getElementById("s"+(Slideous.curidx=i)), item;'
-          r,←⊂'         while (item = Slideous.firstitem(slide, showitems ? Slideous.isitemhidden : Slideous.isitemvisible))'
-          r,←⊂'            Slideous.displayitem(item, showitems);'
-          r,←⊂'         slide.style.display = "block";'
-          r,←⊂'         if (updatestatus)'
-          r,←⊂'            Slideous.updatestatus();'
-          r,←⊂'      }'
-          r,←⊂'   },'
-          r,←⊂'   firstitem: function(root, filter) {'
-          r,←⊂'      var found = filter(root);'
-          r,←⊂'      for (var node=root.firstChild; node!=null && !found; node = node.nextSibling)'
-          r,←⊂'         found = Slideous.firstitem(node, filter);'
-          r,←⊂'      return found;'
-          r,←⊂'   },'
-          r,←⊂'   lastitem: function(root, filter) {'
-          r,←⊂'      var found = null;'
-          r,←⊂'      for (var node=root.lastChild; node!=null && !found; node = node.previousSibling)'
-          r,←⊂'         found = Slideous.lastitem(node, filter);'
-          r,←⊂'      return found || filter(root);'
-          r,←⊂'   },'
-          r,←⊂'   isitem: function(node, visible) {'
-          r,←⊂'      var nodename;'
-          r,←⊂'      return node && node.nodeType == 1   // elements only ..'
-          r,←⊂'          && (nodename=node.nodeName.toLowerCase()) in Slideous.incrementables'
-          r,←⊂'          && (   Slideous.incrementables[nodename].filter.match("\\bself\\b")'
-          r,←⊂'          && (Slideous.hasclass(node, "incremental")'
-          r,←⊂'              || (Slideous.autoincrement && nodename in Slideous.autoincrementables))'
-          r,←⊂'              || Slideous.incrementables[nodename].filter.match("\\bparent\\b") && (Slideous.hasclass(node.parentNode, "incremental")'
-          r,←⊂'              || (Slideous.autoincrement && node.parentNode.nodeName.toLowerCase() in Slideous.autoincrementables))'
-          r,←⊂'              || Slideous.incrementables[nodename].filter.match("\\bgrandparent\\b") && (Slideous.hasclass(node.parentNode.parentNode, "incremental")'
-          r,←⊂'              || (Slideous.autoincrement && node.parentNode.parentNode.nodeName.toLowerCase() in Slideous.autoincrementables))'
-          r,←⊂'             )'
-          r,←⊂'          && (visible ? (node.style.visibility != "hidden")'
-          r,←⊂'                      : (node.style.visibility == "hidden"))'
-          r,←⊂'          ? node : null;'
-          r,←⊂'   },'
-          r,←⊂'   isitemvisible: function(node) { return Slideous.isitem(node, true); },'
-          r,←⊂'   isitemhidden: function(node) { return Slideous.isitem(node, false); },'
-          r,←⊂'   displayitem: function(item, show) {'
-          r,←⊂'      if (item) item.style.visibility = (show ? "visible" : "hidden");'
-          r,←⊂'   },'
-          r,←⊂'   updatestatus: function() {'
-          r,←⊂'      if (Slideous.statusbar) {'
-          r,←⊂'         var eos = document.getElementById("eos"), '
-          r,←⊂'             idx = document.getElementById("slideidx"),'
-          r,←⊂'             tocbox = document.getElementById("tocbox");'
-          r,←⊂'         if (eos) '
-          r,←⊂'            eos.style.visibility = Slideous.firstitem(document.getElementById("s"+Slideous.curidx), Slideous.isitemhidden) != null'
-          r,←⊂'                                 ? "visible" : "hidden";'
-          r,←⊂'         if (idx) '
-          r,←⊂'            idx.innerHTML = Slideous.curidx;'
-          r,←⊂'         if (tocbox)'
-          r,←⊂'            tocbox.selectedIndex = Slideous.curidx-1;'
-          r,←⊂'      }'
-          r,←⊂'   },'
-          r,←⊂'   togglestatusbar: function() {'
-          r,←⊂'      document.getElementById("statusbar").style.display = (Slideous.statusbar = !Slideous.statusbar) ? "block" : "none";'
-          r,←⊂'   },'
-          r,←⊂'   toggleshowall: function(showall) {'
-          r,←⊂'      var slide, item;'
-          r,←⊂'      for (var i=0; i<Slideous.count; i++) {'
-          r,←⊂'         slide = document.getElementById("s"+(i+1));'
-          r,←⊂'         slide.style.display = showall ? "block" : "none";'
-          r,←⊂'         while (item = Slideous.firstitem(slide, showall ? Slideous.isitemhidden : Slideous.isitemvisible)) '
-          r,←⊂'            Slideous.displayitem(item, showall);'
-          r,←⊂'         var divs = slide.getElementsByTagName("div");'
-          r,←⊂'         for (var j in divs)'
-          r,←⊂'            if (Slideous.hasclass(divs[j], "handout"))'
-          r,←⊂'               divs[j].style.display = showall ? "block" : "none";'
-          r,←⊂'      }'
-          r,←⊂'      if (!showall)'
-          r,←⊂'         document.getElementById("s"+Slideous.curidx).style.display = "block";'
-          r,←⊂'      if (Slideous.statusbar) '
-          r,←⊂'         document.getElementById("statusbar").style.display = showall ? "none" : "block";'
-          r,←⊂'      Slideous.showall = showall;'
-          r,←⊂'   },'
-          r,←⊂'   hasclass: function(elem, classname) {'
-          r,←⊂'      var classattr = null;'
-          r,←⊂'      return (classattr=(elem.attributes && elem.attributes["class"])) '
-          r,←⊂'          && classattr.nodeValue.match("\\b"+classname+"\\b");'
-          r,←⊂'   },'
-          r,←⊂'   selectedcontent: function() {'
-          r,←⊂'      return window.getSelection ? window.getSelection().toString() '
-          r,←⊂'                                 : document.getSelection ? document.getSelection() '
-          r,←⊂'                                                         : document.selection ? document.selection.createRange().text'
-          r,←⊂'                                                                              : "";'
-          r,←⊂'   },'
-          r,←⊂'   mousenavigation: function(on) {'
-          r,←⊂'      if (on) {'
-          r,←⊂'         document.onmousedown = Slideous.mousedown;'
-          r,←⊂'         document.onmouseup = Slideous.mouseup;'
-          r,←⊂'      }'
-          r,←⊂'      else'
-          r,←⊂'         document.onmousedown = document.onmouseup = null;'
-          r,←⊂'   },'
-          r,←⊂'   mousepos: function(e) {'
-          r,←⊂'      return e.pageX ? {x: e.pageX, y: e.pageY} '
-          r,←⊂'                     : {x: e.x+document.body.scrollLeft, y: e.y+document.body.scrollTop};'
-          r,←⊂'   },'
-          r,←⊂'   mousedown: function(evt) {'
-          r,←⊂'      evt = evt||window.event;'
-          r,←⊂'      Slideous.mousedownpos = Slideous.mousepos(evt);'
-          r,←⊂'      Slideous.contentselected = !!Slideous.selectedcontent() || ((evt.target || evt.srcElement).nodeName.toLowerCase() in Slideous.clickables);'
-          r,←⊂'      return true;'
-          r,←⊂'   },'
-          r,←⊂'   mouseup: function(evt) {'
-          r,←⊂'      evt = evt||window.event;'
-          r,←⊂'      var pos = Slideous.mousepos(evt);'
-          r,←⊂'      if (pos.x == Slideous.mousedownpos.x && pos.y == Slideous.mousedownpos.y && !Slideous.contentselected) {'
-          r,←⊂'         Slideous.next(true);'
-          r,←⊂'         return evt.returnValue = !(evt.cancel = true);'
-          r,←⊂'      }'
-          r,←⊂'      return false;'
-          r,←⊂'   }'
-          r,←⊂'};'
-          r,←⊂'window.onload = Slideous.init;'
-          r,←⊂''
-          r
-      }
+    ∇ r←GetJavaScript;filename
+      filename←##.TatinVars.GetFullPath2AssetsFolder,'JS/code.js'
+      r←⊃⎕NGET filename 1
+    ∇
 
     ∇ parms←AddDefaultParms parms;defaults;bool;list;buff
       defaults←CreateParms

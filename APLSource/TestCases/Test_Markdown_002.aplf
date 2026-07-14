@@ -7,7 +7,7 @@
  filename←##.CiderConfig.HOME,'/Tests/Test_02.md'
  markdown←⊃⎕NGET filename 1
  parms←##.PresentAPL.CreateParms
- (html ns)←##.PresentAPL.MakePresentationFromMarkdown markdown parms
+ (html ns)←##.PresentAPL.MakePresentationFromMarkdownArray markdown parms
  html←1↓↑,/(⎕UCS 13),¨html
 
  →T.PassesIf 0∊⍴ns.report

@@ -9,7 +9,7 @@
  parms←##.PresentAPL.CreateParms
  parms.cssURL←FilesAndDirs.PWD
  parms.css←'Tests\PresentAPL_.css'
- (html ns)←##.PresentAPL.MakePresentationFromMarkdown markdown parms
+ (html ns)←##.PresentAPL.MakePresentationFromMarkdownArray markdown parms
 
  →T.PassesIf 0∊⍴ns.report
  searchPattern←'<link rel="stylesheet" type="text/css" href=".*" />'

@@ -1,125 +1,112 @@
-/*  This work is licensed under Creative Commons GNU LGPL License.
+/*	This work is licensed under Creative Commons GNU LGPL License.
 
     Originated as "slideous"
 
-    License: http://creativecommons.org/licenses/LGPL/2.1/
-    Version: 1.0
+	License: http://creativecommons.org/licenses/LGPL/2.1/
+	Version: 1.0
 
-    Author:  Stefan Goessner/2005
-    Web:     http://goessner.net/
+	Author:  Stefan Goessner/2005
+	Web:     http://goessner.net/
 
-    Enhanced/changed for "PresentAPL" by (mainly) Kai Jaeger
-    and (a bit) Mike Mingard.
+	Enhanced/changed for "PresentAPL" by (mainly) Mike Mingard
+	and (a bit) by Kai Jaeger.
 
-    Note that this CSS file contains CSS for all media types:
-    "screen", "presentation" and "print".
+	Note that this CSS file contains CSS for all media types:
+	"screen", "presentation" and "print".
+	
+	|--------------------|
+	| Retired in 2026-07 |
+	|--------------------|	
 */
 
 @media screen, projection {
 
 body {
-  background-color: #1E5799;
+  background-color: #5d5f60;
+  background-image: url();      /* You might change this */
   padding: 0;
   margin: 0;
-  color: White;
+  color: #fff;
   border-color: #678;
   font-size: 100%;
-  font-family: Verdana, open-sans;
-  font-weight: 300;
+  font-family: Verdana, "Open Sans";
   line-height: 1.6;
 }
 code {
-    display: inline;
+	display: inline;
 }
 pre {
-    background: silver;
-    color: Black;
-    border: 1px dotted black;
-    margin: 0px;
-    padding: 5px;
-    box-shadow: 5px 5px 5px Black; 
+	background: silver;
+	color: Black;
+	border: 1px black;
+	margin: 0px;
+	padding: 5px;
+	box-shadow: 5px 5px 5px Black;
 }
 pre code {
-    color: inherit;
-    font-weight: 800;
-    border: 1px silver;
-    padding:2px;
-    background-color: silver;
+	background-color: inherit;
+	color: inherit;
+	font-weight: 800;
+	border: 1px silver;
+	padding:2px;
 }
 
 blockquote {
-  background: #f9f9f9;
-  margin: 1.5em 10px;
-  padding: 0.5em 10px;
-  quotes: "\201C" "\201C";
-  color: gray;
-}
-blockquote:before {
-  color: #ccc;
-  content: open-quote;
-  font-size: 4em;
-  line-height: 0.1em;
-  margin-right: 0em;
-  vertical-align: -0.4em;
-}
-blockquote p {
-  display: inline;
+	border-left: 10px solid Silver;
+	padding-left: 15px;
+	margin-left: 20px;
 }
 code {
-    background-color: silver;
-    color: Black;
-    font-size: 90%;
-    font-weight: 800;
-    padding: 1px 5px;
-    margin: 0;
-    font-family: "APLFONT";
+	background-color: silver;
+	color: Black;
+	font-size: 100%;
+	font-weight: 800;
+	padding: 2px 5px;
+	margin: 0;
+	font-family: "APLFONT";
 }
 td > code {
-    background-color: inherit;
+	background-color: inherit;
 }
 #statusbar {
   display: none;
   position: absolute; z-index: 10;
   top: auto; bottom: 0; left: 0; right: 0;
   height: 3em;  
-  background-color: inherit;
-  color: White;
+  background-color: #222326;
+  color: #91cc41;
   font-size: 75%;
   padding: 0.5em 0.5em 0.0em 0.5em;
-  border-top: solid 2px Silver; 
-  font-weight: 300;
+  border-top: solid 1px #000;
 }
 #sbtitle {
-    font-size: 75%;
+	font-size: 12px;
 }
 #statusbar button, #tocbox {
-  cursor: pointer;
+  cursor: pointer; 
   color: Black;
-  background-color: Silver;
+  background-color: #648f00;
   margin: 1px;
+  padding: 0.6em 0.6em 0.6em 0.6em;
+  border: solid 1px #648f00;
 }
 
 #statusbar button {
-    display: inline-block;
-    box-shadow: 0 0 0 1px rgba(0,0,0,.15) inset,0 0 6px rgba(0,0,0,.2) inset;
-    padding: 0.8em;
-    color: rgba(0,0,0,.8);
-    border: 0 rgba(0,0,0,0);
-    background-color: #E6E6E6;
-    border-radius: 2px;
-    height: 37px;
+  transition: background 0.4s ease,
+              padding 0.8s linear;
+			  border-radius: 50px;
 }
 
 #statusbar button:hover  {
-    background-color: #cecece;
+  color: #ffffff;
+  background-color: #91cc41;
+  border: solid 1px #648f00;
+  transition: background 0.4s ease,
+              padding 0.8s linear;
 }
 #tocbox {
-  width: 22em;
-  height: 37px;
-  font-size: 10px;
-  background-color: White;
-  color: black;
-  padding: 0em;
+  width: 18em;
+  font-weight: bold;
 }
 #eos {
   visibility: hidden;
@@ -136,21 +123,22 @@ div.slide {
 
 div.slide h1 {
   background: inherit;
-  color: White;
+  color: #91cc41;
   padding: 0;
-  margin: 0 0 20px 0;
+  margin: 0;
   font-size: 160%;
-  border-bottom: solid 2px White ;
-  font-family: "Open Sans", Verdana;
+  border-bottom: solid 2px #91cc41 ;
+  font-family: Verdana, "Open Sans";
+  font-weight:300;
 
 }
 
-div.handout {
-display: block;
+div.handout { 
+display: block; 
 padding-left: 8px;
-border-left: 6px solid silver;
+border-left: 6px solid #464646;
 }
-
+   
 body>#statusbar {   /* ie6 hack for fixing the statusbar - in quirks mode */
   position: fixed;  /* thanks to Anne van Kesteren and Arthur Steiner */
 }                   /* see http://limpid.nl/lab/css/fixed/footer */
@@ -169,51 +157,44 @@ body {
   padding: 20px;
 }
 
-li { padding: 1px 0; }
+li { padding: 3px 0; }
 
 hr {
     border: 0;
     height: 2px;
-    background: White;
+    background: #91cc41;
 }
 
 img {
-    margin-top: 10px;
-    margin-bottom: 10px;
+	margin-top: 10px;
+	margin-bottom: 10px;
 }
 
 h1, h2, h3, h4, h5, h6 {
-    color: White;
-    font-family: Verdana, "Open Sans";  
-    font-weight: 800;
+	color: #91cc41;
+	font-family: Verdana, "Open Sans";
+	font-weight: 800;
 }
-
-div.slides:first-child > h1 {font-size: 2.5em;}
-div.slides:first-child > h3 {font-size: 2.0em;}
 
 /* ---------------------------------------------------------------------------- */
 
 table {
-border-top: solid 2px Black;
-border-left: solid 2px Black;
-border-right: solid 3px Gray;
-border-bottom: solid 3px Gray;
+border: solid 1px #91cc41;
 border-collapse: collapse;
 empty-cells: show;
 font-size: 100%;
 margin-top: 20px;
 margin-bottom: 10px;
-background-color: #fef9f2;
-color: Black;
+background-color: #747e66;
 }
 table td, table th {
-border-left: solid 1px Gray;
-border-right: solid 1px Gray;
+border-left: solid 1px #91cc41;
+border-right: solid 1px #91cc41;
 padding: 0.25em 0.5em 0.25em 0.5em;
 text-align: left;
 }
 tbody tr:nth-child(odd) {
-  background-color: #fcefde;
+  background-color: #869177;
 }
 /* table tr.evn td, table tr.evn th { color: inherit; background-color: #ddd; } */
 /* table tr.odd td, table tr.odd th { color: inherit; background-color: #eee; } */
@@ -232,13 +213,13 @@ span.xtag { color: navy; background-color: inherit; }
 span.xnam { color: #4169E1; background-color: inherit; }
 span.xval { font-style: italic; color: #8B0000; background-color: inherit;}
 ol, ul {
-    padding-top: 5px;
-    padding-bottom: 5px;
+	padding-top: 5px;
+	padding-bottom: 5px;
 }
 li > p {
-    margin: 0;
-    padding-top: 15px;
-    padding-bottom: 5px;
+	margin: 0;
+	padding-top: 15px;
+	padding-bottom: 5px;
 }
 
 } /* @media screen, projection */ 
@@ -247,7 +228,7 @@ li > p {
 
 @media print {
 body {
-  color: Black;
+  color: black;
   font-size: 1em;
   font-family: Verdana, sans-serif;
   margin: 2em;
@@ -269,17 +250,17 @@ div.slide { page-break-after: always; }
 div.handout { display: block; border-left: 2px solid silver; padding-left: 4px;}
 
 li {
-    padding:5pt 0;
+	padding:5px 0;
 }
 ol, ul {
-    padding-top: 5pt;
-    padding-bottom: 5pt;
+	padding-top: 5pt;
+	padding-bottom: 5pt;
 }
 
 li > p {
-    margin: 0;
-    padding-top: 5pt;
-    padding-bottom: 5pt;
+	margin: 0;
+	padding-top: 5pt;
+	padding-bottom: 5pt;
 }
 
 } /* @media print */
