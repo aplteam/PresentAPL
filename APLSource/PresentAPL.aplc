@@ -35,11 +35,18 @@
 
     ∇ r←Version
       :Access Public Shared
-      r←'PresentAPL' '4.0.0' '2026-07-14'
+      r←'PresentAPL' '4.1.0' '2026-07-19'
     ∇
 
     ∇ History
-      :Access Public Shared
+      :Access Public Shared 
+      ⍝ * 4.1.0 ⋄ 2026-07-19
+      ⍝   * The first slide is now always fully revealed when a presentation is opened.
+      ⍝   * Size and padding of the footer improved.
+      ⍝   * The arrow in the footer is now displayed when the last item was revealed. 
+      ⍝   * The animation introduced with 4.0.0 triggered a horizontal scrollbar causing a flicker.
+      ⍝   * README corrected
+      ⍝   * New version of MarkAPL 
       ⍝ * 4.0.0 ⋄ 2026-07-14
       ⍝   * Function `MakePresentationFromMarkdown` renamed: `MakePresentationFromMarkdownArray`
       ⍝   * Testing APL expressions no longer supported

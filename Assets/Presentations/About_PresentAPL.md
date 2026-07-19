@@ -23,7 +23,7 @@
 * It uses HTML5, CSS and a bit of JavaScript to achieve that
 * All it needs is a modern browser
 
-Use all MarkAPL features: paragraphs, lists, code blocks, tables, images, blockquotes, horizontal rulers, in-line markup (**bold**, _italic_, `APL code`, ~~deleted~~...) and more.
+You may use all MarkAPL features: paragraphs, lists, code blocks, tables, images, blockquotes, horizontal rulers, in-line markup (**bold**, _italic_, `APL code`, ~~deleted~~...) and more.
 
 
 
@@ -32,17 +32,19 @@ Use all MarkAPL features: paragraphs, lists, code blocks, tables, images, blockq
 
 This is a paragraph **with** in-line mark-up that shows in print view only. The blank lines above and underneath this paragraph are essential. Only then are the two `<div>`s recognized as two rather than one HTML block, and only then is anything between the two `<div>`s interpreted as Markdown. 
 
+Use this either for author's notes or as a printout.
+
 
 </div>
 
 
 ## Advantages  
 
-* Single stand-alone HTML file.
-* Open Source.
-* Simple and easy to use.
+* Single stand-alone HTML file
+* Open Source
+* Simple and easy to use
 
-⍝ This file acts also as an example of how to create such a slide show.
+⍝ This line does **not** show
 
 
 ## Disadvantages
@@ -51,8 +53,8 @@ This is a paragraph **with** in-line mark-up that shows in print view only. The 
 
 ## Workflow
 
+1. Get the package with `]Tatin.LoadPackages [tatin]PresentAPL`
 1. Create a presentation by editing a Markdown file. `AboutPresentAPL.md` is a starting point
-1. Execute `]Tatin.LoadPackages [tatin]PresentAPL
 2. Execute `PresentAPL.MakePresentationFromFile /path/2/markdown`
 1. View the resulting HTML file - your presentation.
 
@@ -75,7 +77,7 @@ The following keys are used to control a PresentAPL presentation:{.nonincrementa
 
 ## Incremental
 
-* All elements are shown incrementally.
+* Except the first page, all elements are shown incrementally
 
   That means that by pressing `<CursorRight>` just one element at a time is revealed.
   
@@ -85,7 +87,9 @@ The following keys are used to control a PresentAPL presentation:{.nonincrementa
 
 I like to know when the last topic on a slide has been revealed. 
 
-The bottom-left corner shows an arrow as long as not all items are revealed.
+In the footer, a right-pointing arrow shows once the last item on that slide was revealed.
+
+
 
 
 

@@ -1,3 +1,7 @@
+[parm]:presentation = 1
+[parm]:title        = 'PresentAPL Example'
+
+
 # Samples
 
 [Data]:author="Kai Jaeger"
@@ -14,6 +18,7 @@
 
 ## Headers
 
+
 ### Basic rules
 
 * The level-1 header defines the name of the slide show
@@ -29,16 +34,16 @@ Everything that is not identified as something else is a paragraph. The end of a
 
 ### In-line mark-up
 
-Examples for **bold**, _italic_ and **_bold and italic_** but also ~~deleted~~ and `APL code`. 
+Examples for **bold**, _italic_ and **_bold and italic_** but also as ==marked==, ~~deleted~~ and `APL code`. 
 
 This is actually achieved by this:
  
 ~~~
 Examples for **bold**, _italic_ and **_bold and italic_** 
-but also ~~deleted~~ and `APL code`.
+but also as ==marked==, ~~deleted~~ and `APL code`.
 ~~~
 
-You can insert line-breaks by either having a backslash (`\`) at the end of a line or having `<br>` anywhere in a paragraph, list item or table cell.  
+You can insert line-breaks by either having a backslash (`\`) at the end of a line or having \<br\> anywhere in a paragraph, list item or table cell.  
 
 ## Lists -1-
 
@@ -194,9 +199,14 @@ results in this:
 
 ## Sophisticated stuff
 
-PresentAPL offeres more. Essentially it offers almost anything the underlying Markdown parser, MarkAPL, has to offer.
+PresentAPL offeres more. 
 
-For more information see <https://github.com/aplteam/MarkAPL>
+For details see <https://github.com/aplteam/MarkAPL>
+
+
+
+
+
 
 
 

@@ -39,7 +39,7 @@ Note that you can also create a presentation from an array that holds markdown:
     parms←PresentAPL.CreateParms 
     parms.outputFilename←'/path/2/MyPresentation.html'
     myMD←'# My Markdown' '' 'A paragraph'
-    PresentAPL.MakePresentationFromMarkdown myMD parms                                        
+    PresentAPL.MakePresentationFromMarkdownArray myMD parms                                        
 ```
 
 
@@ -59,11 +59,11 @@ License: http://creativecommons.org/licenses/LGPL/2.1/
 A big thank you to:
 
 * Stefan Goessner (<http://goessner.net/>) who created Slideous --- I stole a lot from it.
-* Mike Mingard who created the theme PresentAPL_Green.css.
 
 Kai Jaeger
 
 Created: 2016-04-12
 
-Last update: 2026-07-13
+Last update: 2026-07-19
+
 
