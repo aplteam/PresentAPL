@@ -35,18 +35,22 @@
 
     ∇ r←Version
       :Access Public Shared
-      r←'PresentAPL' '4.1.0' '2026-07-19'
+      r←'PresentAPL' '5.0.0-beta-1' '2026-11-01'
     ∇
 
     ∇ History
-      :Access Public Shared 
+      :Access Public Shared
+      ⍝ * 5.0.0 ⋄ 2026-11-01
+      ⍝   * New version of MarkAPL (16) with massive performance improvements and other stuff,
+      ⍝     which can show a changed behavior, hence the major version bump.
+      ⍝   * CSS path handling has changed and need adjustments in PresentAPL
       ⍝ * 4.1.0 ⋄ 2026-07-19
       ⍝   * The first slide is now always fully revealed when a presentation is opened.
       ⍝   * Size and padding of the footer improved.
-      ⍝   * The arrow in the footer is now displayed when the last item was revealed. 
+      ⍝   * The arrow in the footer is now displayed when the last item was revealed.
       ⍝   * The animation introduced with 4.0.0 triggered a horizontal scrollbar causing a flicker.
       ⍝   * README corrected
-      ⍝   * New version of MarkAPL 
+      ⍝   * New version of MarkAPL
       ⍝ * 4.0.0 ⋄ 2026-07-14
       ⍝   * Function `MakePresentationFromMarkdown` renamed: `MakePresentationFromMarkdownArray`
       ⍝   * Testing APL expressions no longer supported
@@ -288,7 +292,7 @@
           css←##.MarkAPL.CompressCSS⍣(⊃parms.compressCSS)⊢css
           r←'<style>'css'</style>'
       :Else
-          r←⊂'<link rel="stylesheet" type="text/css" href="',parms.cssURL,parms.css,'" /> '
+          r←⊂'<link rel="stylesheet" type="text/css" href="',({⍵,'/'/⍨~'/\'∊⍨¯1↑⍵}parms.cssURL),parms.css,'" /> '
       :EndIf
     ∇
 
