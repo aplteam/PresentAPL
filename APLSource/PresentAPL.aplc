@@ -35,7 +35,7 @@
 
     ∇ r←Version
       :Access Public Shared
-      r←'PresentAPL' '5.0.0-beta-1' '2026-11-01'
+      r←'PresentAPL' '5.0.0' '2026-11-01'
     ∇
 
     ∇ History
