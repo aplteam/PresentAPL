@@ -11,7 +11,7 @@
  parms.css←'Tests\PresentAPL_.css'
  (html ns)←##.PresentAPL.MakePresentationFromMarkdownArray markdown parms
 
- →T.PassesIf 0∊⍴ns.report
+ →T.PassesIf 0=≢ns.report
  searchPattern←'<link rel="stylesheet" type="text/css" href=".*" />'
  blockNo←searchPattern ⎕S 2⍠('Greedy' 0)('Mode' 'L')⊣html
  →T.PassesIf 1=⍴blockNo
